@@ -10,9 +10,10 @@
         public string Telefone { get; set; }
         public string Endereco { get; set; }
         public DateOnly DataNascimento { get; set; }
-        public char? Sexo { get; set; }
+        public char Sexo { get; set; }
         public bool Excluido { get; set; }
         public int TipoUsuarioId { get; set; }
         public TipoUsuario TipoUsuario { get; set; }
+        public ICollection<FormularioAdocao> Formularios { get; set; } = new List<FormularioAdocao>();
     }
 }

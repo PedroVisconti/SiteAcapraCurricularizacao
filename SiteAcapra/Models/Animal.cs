@@ -15,15 +15,15 @@
         public DateTime DataCadastro { get; set; }
         public double? Peso { get; set; }
         public bool Castrado { get; set; }
-
         public int RacaId { get; set; }
         public Raca Raca { get; set; }
-
         public int EspecieId { get; set; }
         public Especie Especie { get; set; }
-
         public Guid TutorId { get; set; }
         public Tutor Tutor { get; set; }
+        public ICollection<Foto> Fotos { get; set; } = new List<Foto>();
+        public ICollection<AnimalVacina> AnimalVacinas { get; set; } = new List<AnimalVacina>();
+        public ICollection<FormularioAdocao> Formularios { get; set; } = new List<FormularioAdocao>();
 
     }
 }
