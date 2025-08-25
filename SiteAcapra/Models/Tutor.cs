@@ -12,5 +12,7 @@
         public DateOnly DataNascimento { get; set; }
         public char? Sexo { get; set; }
         public bool Excluido { get; set; }
+        public ICollection<Animal> Animals { get; set; } = new List<Animal>();
+
     }
 }
