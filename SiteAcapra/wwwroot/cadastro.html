@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/cadastro.css">
+    <title>Acapra - Cadastro de Usuario</title>
+</head>
+<body>
+    <div class="login-container">
+        <div class="content">
+            <span class="falling" style="left: 5%; animation-duration: 3s;">🦴</span>
+            <span class="falling" style="left: 15%; animation-duration: 4s;">🐶</span>
+            <span class="falling" style="left: 25%; animation-duration: 2.5s;">🐾</span>
+            <span class="falling" style="left: 35%; animation-duration: 3.7s;">🦴</span>
+            <span class="falling" style="left: 45%; animation-duration: 5s;">🐕</span>
+            <span class="falling" style="left: 55%; animation-duration: 4.2s;">🐾</span>
+            <span class="falling" style="left: 65%; animation-duration: 3.3s;">🦴</span>
+            <span class="falling" style="left: 75%; animation-duration: 4.8s;">🐶</span>
+            <span class="falling" style="left: 85%; animation-duration: 3.6s;">🐕</span>
+            <span class="falling" style="left: 5%; animation-duration: 2s;">🦴</span>
+            <span class="falling" style="left: 15%; animation-duration: 2s;">🐶</span>
+            <span class="falling" style="left: 25%; animation-duration: 1.5s;">🐾</span>
+            <span class="falling" style="left: 35%; animation-duration: 2.7s;">🦴</span>
+            <span class="falling" style="left: 45%; animation-duration: 4s;">🐕</span>
+            <span class="falling" style="left: 55%; animation-duration: 3.2s;">🐾</span>
+            <span class="falling" style="left: 65%; animation-duration: 2.3s;">🦴</span>
+            <span class="falling" style="left: 75%; animation-duration: 3.8s;">🐶</span>
+            <span class="falling" style="left: 85%; animation-duration: 2.6s;">🐕</span>
+            <section class="about-text-section">
+                <h1>Venha fazer a diferença e ajudar quem mais precisa</h1>
+                <p>
+                    Somos uma instituição dedicada ao cuidado e proteção de animais em situação de vulnerabilidade. 
+                    Aqui, cada gesto de carinho, cada adoção, doação ou voluntariado transforma vidas e traz esperança. 
+                    Junte-se a nós e ajude a construir um mundo mais seguro e amoroso para nossos amigos de quatro patas.
+                </p>
+            </section>
+        </div>
+        <div class="cadastro-form">
+            <h2>Crie a sua conta</h2>
+            <p>Preencha os campos abaixo para se cadastrar</p>
+        <form action="" method="" class="form-cadastro">
+            <div class="form-group">
+                <label for="name">Nome Completo</label>
+                <input id="name" name="name" placeholder="Digite seu nome completo" required>
+                <div class="error-message" hidden>Por favor, informe seu nome completo</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                <div class="error-message" hidden>Por favor, informe seu e-mail</div>
+            </div>
+
+            <div class="form-group">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" placeholder="******" required>
+                <div class="error-message" hidden>Por favor, informe sua senha</div>
+            </div>
+
+            <div class="form-group">
+                <label for="cpf">CPF</label>
+                <input id="cpf" name="cpf" placeholder="000-000-000-00" required>
+                <div class="error-message" hidden>Por favor, informe CPF</div>
+            </div>
+
+            <div class="form-group">
+                <label for="telefone">Telefone</label>
+                <input id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
+                <div class="error-message" hidden>Por favor, informe seu telefone</div>
+            </div>
+
+            <div class="form-group">
+                <label for="endereco">Endereço</label>
+                <input id="endereco" name="endereco" placeholder="Rua, número, bairro" required>
+                <div class="error-message" hidden>Por favor, informe seu endereço</div>
+            </div>
+
+            <div class="form-group">
+                <label for="dataNascimento">Data de Nascimento</label>
+                <input type="date" id="dataNascimento" name="dataNascimento" required>
+                <div class="error-message" hidden>Por favor, insira sua data de nascimento</div>
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Sexo</label>
+                <select name="gender" id="gender">
+                    <option value="" disabled selected>Selecione</option>
+                    <option value="masculino">Masculino</option>
+                    <option value="feminino">Feminino</option>
+                </select>
+                <div class="error-message" hidden>Por favor, selecione uma opção</div>
+            </div>
+
+            <button type="submit" class="btn-login">Entrar</button>
+        </form>
+            <p class="login">Ja possui uma conta? <a href="login.html"><b>Acesse</b></a></p>
+        </div>
+    </div>
+
+</body>
+</html>

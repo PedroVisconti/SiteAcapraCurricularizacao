@@ -1,0 +1,211 @@
+body {
+    margin: 0;
+    padding: 40px;
+    background-color: #f5f3f3;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.falling {
+    position: absolute;
+    top: -50px;
+    font-size: 40px; 
+    animation: cair linear infinite;
+    opacity: 0.9;
+}
+
+/* animação */
+@keyframes cair {
+    from {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0.7;
+    }
+}
+
+.login-container {
+    display: flex;
+    width: 1500px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.content{
+    flex: 1;    
+    background: linear-gradient(to bottom right, #4b3a75, #9e83e7);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    overflow: hidden;
+    position: relative; 
+}
+
+.content h2 {
+    margin-bottom: 15px;
+}
+
+.content p {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.content-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 23px;
+}
+
+.content-details p {
+    width: 100%;
+    max-width: 400px;
+    height: 60px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    background-color: #6f658e;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.about-text-section {
+    max-width: 800px;         
+    margin: 0 auto;            
+    padding: 40px 20px;       
+    text-align: center;        
+    border-radius: 10px;      
+}
+
+.about-text-section h1 {
+    font-size: 2.5rem;         
+    font-weight: 700;
+    color: #ffffff;            
+    margin-bottom: 20px;
+    line-height: 1.2;       
+}
+
+.about-text-section p {
+    font-size: 1.2rem;        
+    line-height: 1.8;         
+    color: #ffffff;          
+    margin-bottom: 0;
+}
+
+.cadastro-form{
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  
+    align-items: center;
+}
+.cadastro-form h2 {
+    margin-bottom: 5px;
+    color: #4b3a75;
+}
+.cadastro-form p {
+    margin-bottom: 15px;
+}
+
+.login{
+    border-top: 1px solid #333;
+    padding-top: 10px;
+    width: 80%; 
+    justify-content: center;
+    text-align: center;
+}
+
+.form-cadastro{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px; /* espaço entre label e input */
+    display: inline-block;
+}
+
+.form-group input {
+    width: 95%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background-color: #4b3a75;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 10px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20fill%3D'%234b3a75'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20width%3D'24'%20xmlns%3D'http://www.w3.org/2000/svg'%3E%3Cpath%20d%3D'M7%2010l5%205%205-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 18px;
+}
+
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #4b3a75;
+    box-shadow: 0 0 5px rgba(75, 58, 117, 0.5);
+    outline: none;
+}
+
+/* Mensagem de erro */
+.error-message {
+    font-size: 13px;
+    color: red;
+    margin-top: 5px;
+}
