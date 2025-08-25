@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acapra - Formulário de Adoção</title>
+    <link rel="stylesheet" href="/css/formulario.css">
+</head>
+<body>
+    <div class="form-container">
+        <!-- Lado esquerdo: Sobre o Animal -->
+        <div class="content">
+            <section class="about-animal">
+                <h1>Sobre o Animal</h1>
+                <img src="/img/rex.jpg" alt="Animal para adoção" class="animal-img">
+                <h2>Rex</h2>
+                <div class="tags">
+                    <span class="tag cachorro">Cachorro</span>
+                    <span class="tag macho">Macho</span>
+                    <span class="tag adulto">Adulto</span>
+                </div>
+                <div class="info">
+                    <p><strong>Raça:</strong> Labrador</p>
+                    <p><strong>Idade:</strong> 3 anos</p>
+                    <p><strong>Porte:</strong> Médio</p>
+                    <p><strong>Peso:</strong> 22 kg</p>
+                    <p><strong>Temperamento:</strong> Brincalhão, Amigável, Calmo</p>
+                </div>
+                <div class="history">
+                    <h3>História do Rex</h3>
+                    <p>
+                        Rex foi resgatado das ruas há 6 meses. Ele é um cachorro muito dócil e adora brincar.
+                        Está castrado, vacinado e vermifugado. Rex se dá bem com outros cachorros e crianças,
+                        mas precisa de um pouco de tempo para se acostumar com gatos.
+                    </p>
+                </div>
+                <div class="requirements">
+                    <h3>Requisitos para Adoção</h3>
+                    <ul>
+                        <li>Termo de adoção e compromisso</li>
+                        <li>Documento com foto e comprovante de residência</li>
+                        <li>Visita prévia ao local onde o animal vai morar</li>
+                        <li>Compromisso com cuidados veterinários</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <!-- Lado direito: Formulário -->
+        <div class="form-section">
+            <h2>Formulário de Adoção</h2>
+            <p>Preencha as informações abaixo</p>
+
+            <form class="form-cadastro">
+                <!-- Dados Pessoais -->
+                <div class="form-group">
+                    <label for="nome">Nome Completo *</label>
+                    <input id="nome" name="nome" placeholder="Digite seu nome completo" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="dataNascimento">Data de Nascimento *</label>
+                    <input type="date" id="dataNascimento" name="dataNascimento" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail *</label>
+                    <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefone">Telefone *</label>
+                    <input id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
+                </div>
+
+                <!-- Informações do Animal -->
+                <div class="form-group">
+                    <label for="animal">Animal *</label>
+                    <select id="animal" name="animal" required>
+                        <option value="" disabled selected>Selecione</option>
+                        <option value="cachorro">Cachorro</option>
+                        <option value="gato">Gato</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="outrosAnimais">Você tem outros animais em casa? *</label>
+                    <select id="outrosAnimais" name="outrosAnimais" required>
+                        <option value="" disabled selected>Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                        <option value="asVezes">Às vezes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="castrados">São castrados e vacinados? *</label>
+                    <select id="castrados" name="castrados" required>
+                        <option value="" disabled selected>Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="moradia">Você mora em casa ou apartamento? *</label>
+                    <input id="moradia" name="moradia" placeholder="Casa ou Apartamento" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="renda">Qual sua renda? *</label>
+                    <input id="renda" name="renda" placeholder="Informe sua renda" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="concorda">Todos da residência concordam com a adoção? *</label>
+                    <select id="concorda" name="concorda" required>
+                        <option value="" disabled selected>Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+
+                <!-- Outros Campos de Adoção -->
+                <div class="form-group">
+                    <label for="contato">Contato *</label>
+                    <input id="contato" name="contato" placeholder="(00) 00000-0000" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="espaco">Sua residência tem local apropriado? *</label>
+                    <input id="espaco" name="espaco" placeholder="Descreva o espaço" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="acessoRua">O animal terá acesso à rua? *</label>
+                    <select id="acessoRua" name="acessoRua" required>
+                        <option value="" disabled selected>Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                        <option value="talvez">Talvez</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="condicoes">Você tem condições físicas, mentais e financeiras? *</label>
+                    <textarea id="condicoes" name="condicoes" rows="3" placeholder="Escreva aqui..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="vacinacao">Você concorda com a vacinação obrigatória? *</label>
+                    <select id="vacinacao" name="vacinacao" required>
+                        <option value="" disabled selected>Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="taxa">Você concorda com a taxa de adoção? *</label>
+                    <select id="taxa" name="taxa" required>
+                        <option value="" disabled selected>Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+
+                <!-- Documentos -->
+                <div class="form-group">
+                    <label for="rg">Foto do RG *</label>
+                    <input type="file" id="rg" name="rg" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="comprovante">Comprovante de Renda *</label>
+                    <input type="file" id="comprovante" name="comprovante" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="fotoLocal">Foto do local *</label>
+                    <input type="file" id="fotoLocal" name="fotoLocal" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="carteira">Carteira de vacinação e vacinas *</label>
+                    <input type="file" id="carteira" name="carteira" required>
+                </div>
+
+                <!-- Botões -->
+                <div class="btn-group">
+                    <button type="submit" class="btn-salvar">Enviar</button>
+                    <button type="reset" class="btn-cancelar">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

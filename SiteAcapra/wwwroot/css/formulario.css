@@ -1,0 +1,195 @@
+﻿/* RESET E BODY */
+body {
+    margin: 0;
+    padding: 40px;
+    background-color: #f5f3f3;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* CONTAINER PRINCIPAL */
+.form-container {
+    display: flex;
+    width: 1400px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+
+/* LADO ESQUERDO */
+.content {
+    flex: 1;
+    background: linear-gradient(to bottom right, #4b3a75, #9e83e7);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    text-align: center;
+}
+
+.about-animal h1 {
+    font-size: 2.3rem;
+    margin-bottom: 20px;
+}
+
+.animal-img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.about-animal h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.tags {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.tag {
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: white;
+}
+
+    .tag.cachorro {
+        background-color: #3b82f6;
+    }
+
+    .tag.macho {
+        background-color: #10b981;
+    }
+
+    .tag.adulto {
+        background-color: #a78bfa;
+    }
+
+.info p {
+    margin: 3px 0;
+}
+
+.history, .requirements {
+    text-align: left;
+    margin-top: 15px;
+}
+
+    .requirements ul {
+        padding-left: 20px;
+    }
+
+/* LADO DIREITO (FORMULÁRIO) */
+.form-section {
+    flex: 1.2;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+    .form-section h2 {
+        margin-bottom: 5px;
+        color: #4b3a75;
+        text-align: center;
+    }
+
+    .form-section p {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+/* FORMULÁRIO */
+.form-cadastro {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+    .form-group label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 95%;
+        padding: 12px 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        font-family: 'Poppins', sans-serif;
+        resize: none;
+    }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #4b3a75;
+            box-shadow: 0 0 5px rgba(75, 58, 117, 0.5);
+            outline: none;
+        }
+
+/* BOTÕES */
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn-salvar {
+    flex: 1;
+    margin-right: 10px;
+    padding: 12px;
+    background-color: #4b3a75;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+    .btn-salvar:hover {
+        background-color: #3a2d5d;
+    }
+
+.btn-cancelar {
+    flex: 1;
+    margin-left: 10px;
+    padding: 12px;
+    background-color: #732f2f;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+    .btn-cancelar:hover {
+        background-color: #5a2222;
+    }
