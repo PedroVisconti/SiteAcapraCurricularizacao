@@ -20,10 +20,37 @@ namespace SiteAcapra.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Vacina>(e => {
+                e.ToTable("Vacina");
+                e.HasKey(v => v.VacinaId).HasName("PK_Vacina");
+                e.Property(v => v.VacinaId).ValueGeneratedOnAdd();
+                e.Property(v => v.Nome).IsRequired();
+                e.Property(v => v.Excluido).IsRequired().HasDefaultValue(false);
+            });
+
+            modelBuilder.Entity<Raca>(e => {
+                e.ToTable("Raca");
+                e.HasKey(r => r.RacaId).HasName("PK_Raca");
+                e.Property(r => r.RacaId).ValueGeneratedOnAdd();
+                e.Property(r => r.Nome).IsRequired();
+                e.Property(r => r.Excluido).IsRequired().HasDefaultValue(false);
+                e.HasMany(r => r.Animais).WithOne(a => a.Raca).HasForeignKey(a => a.RacaId).HasConstraintName("FK_Animal_Raca").OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<Especie>(e => {
+                e.ToTable("Especie");
+                e.HasKey(es => es.EspecieId).HasName("PK_Especie");
+                e.Property(es => es.EspecieId).ValueGeneratedOnAdd();
+                e.Property(es => es.Nome).IsRequired();
+                e.Property(es => es.Excluido).IsRequired().HasDefaultValue(false);
+                e.HasMany(es => es.Animais).WithOne(es => es.Especie).HasForeignKey(es => es.EspecieId).HasConstraintName("FK_Animal_Especie").OnDelete(DeleteBehavior.Restrict);
+            });
+
             modelBuilder.Entity<Usuario>(e =>
             {
                 e.ToTable("Usuario");
                 e.HasKey(u => u.UsuarioId).HasName("PK_Usuario");
+                e.Property(u => u.UsuarioId).ValueGeneratedOnAdd();
                 e.Property(u => u.Nome).IsRequired().HasMaxLength(200);
                 e.Property(u => u.Email).IsRequired().HasMaxLength(100);
                 e.Property(u => u.Senha).IsRequired();
@@ -41,6 +68,7 @@ namespace SiteAcapra.Data
             {
                 e.ToTable("Animal");
                 e.HasKey(a => a.AnimalId).HasName("PK_Animal");
+                e.Property(a => a.AnimalId).ValueGeneratedOnAdd();
                 e.Property(a => a.Nome).HasMaxLength(200).IsRequired();
                 e.Property(a => a.DataNascimento).HasColumnType("date").IsRequired();
                 e.Property(a => a.Peso).HasColumnType("decimal(10,2)").IsRequired();
@@ -69,21 +97,6 @@ namespace SiteAcapra.Data
                 e.HasOne(av => av.Animal).WithMany(a => a.AnimalVacinas).HasForeignKey(av => av.AnimalId).HasConstraintName("FK_AnimalVacina_Animal").OnDelete(DeleteBehavior.Cascade);
                 e.HasOne(av => av.Vacina).WithMany(v => v.AnimalVacinas).HasForeignKey(av => av.VacinaId).HasConstraintName("FK_AnimalVacina_Vacina").OnDelete(DeleteBehavior.Cascade);
                 e.Property(av => av.DataVacina).HasColumnType("datetime").IsRequired();
-            });
-
-            modelBuilder.Entity<Vacina>(e => {
-                e.ToTable("Vacina");
-                e.HasKey(v => v.VacinaId).HasName("PK_Vacina");
-                e.Property(v => v.Nome).IsRequired();
-                e.Property(v => v.Excluido).IsRequired().HasDefaultValue(false);     
-            });
-
-            modelBuilder.Entity<Raca>(e => {
-                e.ToTable("Raca");
-                e.HasKey(r => r.RacaId).HasName("PK_Raca");
-                e.Property(r => r.Nome).IsRequired();
-                e.Property(r => r.Excluido).IsRequired().HasDefaultValue(false);
-                e.HasMany(r => r.Animais).WithOne(a => a.Raca).HasForeignKey(a => a.RacaId).HasConstraintName("FK_Animal_Raca").OnDelete(DeleteBehavior.Restrict);
             });
         }
     }
