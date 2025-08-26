@@ -23,7 +23,7 @@
         public Tutor Tutor { get; set; }
         public ICollection<Foto> Fotos { get; set; } = new List<Foto>();
         public ICollection<AnimalVacina> AnimalVacinas { get; set; } = new List<AnimalVacina>();
-        public ICollection<FormularioAdocao> Formularios { get; set; } = new List<FormularioAdocao>();
+        public ICollection<FormularioAdocao> FormulariosAdocao { get; set; } = new List<FormularioAdocao>();
 
     }
 }
