@@ -61,7 +61,8 @@ namespace SiteAcapra.Data
                 e.Property(u => u.Sexo).IsRequired().HasColumnType("char(1)");
                 e.Property(u => u.Excluido).IsRequired().HasDefaultValue(false);
                 e.Property(u => u.TipoUsuarioId).IsRequired();
-                e.HasOne(u => u.TipoUsuario).WithMany(tu => tu.Usuario).HasForeignKey(u => u.TipoUsuarioId).HasConstraintName("FK_Usuario_TipoUsuario").OnDelete(DeleteBehavior.Restrict); ;
+                e.HasOne(u => u.TipoUsuario).WithMany(tu => tu.Usuario).HasForeignKey(u => u.TipoUsuarioId).HasConstraintName("FK_Usuario_TipoUsuario").OnDelete(DeleteBehavior.Restrict);
+                e.HasIndex(u => u.Email).IsUnique();
             });
 
             modelBuilder.Entity<Animal>(e =>
@@ -97,6 +98,62 @@ namespace SiteAcapra.Data
                 e.HasOne(av => av.Animal).WithMany(a => a.AnimalVacinas).HasForeignKey(av => av.AnimalId).HasConstraintName("FK_AnimalVacina_Animal").OnDelete(DeleteBehavior.Cascade);
                 e.HasOne(av => av.Vacina).WithMany(v => v.AnimalVacinas).HasForeignKey(av => av.VacinaId).HasConstraintName("FK_AnimalVacina_Vacina").OnDelete(DeleteBehavior.Cascade);
                 e.Property(av => av.DataVacina).HasColumnType("datetime").IsRequired();
+            });
+
+            modelBuilder.Entity<Tutor>(e =>
+            {
+                e.ToTable("Tutor");
+                e.HasKey(t => t.TutorId).HasName("PK_Tutor");
+                e.Property(t => t.TutorId).ValueGeneratedOnAdd();
+                e.Property(t => t.Nome).IsRequired().HasMaxLength(200);
+                e.Property(t => t.Email).IsRequired().HasMaxLength(100);
+                e.Property(t => t.Telefone).IsRequired().HasMaxLength(15);
+                e.Property(t => t.Endereco).IsRequired().HasMaxLength(100);
+                e.Property(t => t.Cpf).IsRequired().HasMaxLength(11).IsFixedLength();
+                e.Property(t => t.DataCadastro).HasColumnType("datetime").IsRequired();
+                e.Property(t => t.DataNascimento).HasColumnType("date").IsRequired();
+                e.Property(t => t.Sexo).HasColumnType("char(1)");
+                e.Property(t => t.Excluido).IsRequired().HasDefaultValue(false);
+            });
+
+            modelBuilder.Entity<Foto>(e =>
+            {
+                e.ToTable("Foto");
+                e.HasKey(f => f.FotoId).HasName("PK_Foto");
+                e.Property(f => f.FotoId).ValueGeneratedOnAdd();
+                e.Property(f => f.FotoHash).IsRequired();
+                e.Property(f => f.Excluido).IsRequired().HasDefaultValue(false);
+                e.Property(f => f.AnimalId).IsRequired();
+                e.HasOne(f => f.Animal).WithMany(a => a.Fotos).HasForeignKey(f => f.AnimalId).HasConstraintName("FK_Foto_Animal").OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<TipoUsuario>(e =>
+            {
+                e.ToTable("TipoUsuario");
+                e.HasKey(tu => tu.TipoUsuarioId).HasName("PK_TipoUsuario");
+                e.Property(tu => tu.TipoUsuarioId).ValueGeneratedOnAdd();
+                e.Property(tu => tu.Nome).IsRequired().HasMaxLength(100);
+                e.Property(tu => tu.Excluido).IsRequired().HasDefaultValue(false);
+                e.HasMany(tu => tu.Usuario).WithOne(u => u.TipoUsuario).HasForeignKey(u => u.TipoUsuarioId).HasConstraintName("FK_Usuario_TipoUsuario").OnDelete(DeleteBehavior.Restrict);
+            });
+            
+            modelBuilder.Entity<FormularioAdocao>(e =>
+            {
+                e.ToTable("FormularioAdocao");
+                e.HasKey(fa => fa.FormularioAdocaoId).HasName("PK_FormularioAdocao");
+                e.Property(fa => fa.FormularioAdocaoId).ValueGeneratedOnAdd();
+                e.Property(fa => fa.DataPreenchimento)
+                    .HasConversion(
+                        v => v.ToDateTime(TimeOnly.MinValue),
+                        v => DateOnly.FromDateTime(v)
+                    )
+                    .HasColumnType("datetime").IsRequired();
+                e.Property(fa => fa.Resposta).IsRequired();
+                e.Property(fa => fa.Excluido).IsRequired().HasDefaultValue(false);
+                e.Property(fa => fa.UsuarioId).IsRequired();
+                e.HasOne(fa => fa.Usuario).WithMany(u => u.Formularios).HasForeignKey(fa => fa.UsuarioId).HasConstraintName("FK_Formulario_Usuario").OnDelete(DeleteBehavior.Restrict);
+                e.Property(fa => fa.AnimalId).IsRequired();
+                e.HasOne(fa => fa.Animal).WithMany(a => a.FormulariosAdocao).HasForeignKey(fa => fa.AnimalId).HasConstraintName("FK_Formulario_Animal").OnDelete(DeleteBehavior.Cascade);
             });
         }
     }
