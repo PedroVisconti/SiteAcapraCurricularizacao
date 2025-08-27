@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACAPRA - Gerenciar Animais</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>Gerenciamento de Animais</h1>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link">Dashboard</a></li>
+                <li><a href="animals.html" class="nav-link active">Animais</a></li>
+                <li><a href="vacinas.html" class="nav-link">Vacinas</a></li>
+                <li><a href="racas.html" class="nav-link">Raças</a></li>
+                <li><a href="tutores.html" class="nav-link">Tutores</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <div class="card-header flex justify-between align-center">
+                <h2 class="card-title">Lista de Animais</h2>
+                <button class="btn btn-primary" onclick="openAnimalModal()">Adicionar Animal</button>
+            </div>
+            <div id="animal-list-container" class="table-container">
+                <!-- A lista de animais será carregada aqui pelo JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para Adicionar/Editar Animal -->
+    <div id="animalModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="animalModalTitle">Adicionar Novo Animal</h3>
+                <span class="close" onclick="closeAnimalModal()">&times;</span>
+            </div>
+            <form id="animalForm">
+                <input type="hidden" id="animalId" name="id">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nomeAnimal" class="form-label">Nome:</label>
+                        <input type="text" id="nomeAnimal" name="nome" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dataNascimentoAnimal" class="form-label">Data de Nascimento:</label>
+                        <input type="date" id="dataNascimentoAnimal" name="dataNascimento" class="form-input" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="porteAnimal" class="form-label">Porte:</label>
+                        <select id="porteAnimal" name="porte" class="form-select" required>
+                            <option value="">Selecione o Porte</option>
+                            <option value="Pequeno">Pequeno</option>
+                            <option value="Médio">Médio</option>
+                            <option value="Grande">Grande</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pesoAnimal" class="form-label">Peso (kg):</label>
+                        <input type="number" id="pesoAnimal" name="peso" class="form-input" step="0.1">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="especieAnimal" class="form-label">Espécie:</label>
+                        <select id="especieAnimal" name="especieId" class="form-select" required onchange="loadRacasForAnimalForm()">
+                            <option value="">Selecione a Espécie</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="racaAnimal" class="form-label">Raça:</label>
+                        <select id="racaAnimal" name="racaId" class="form-select" required>
+                            <option value="">Selecione a Raça</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tutorAnimal" class="form-label">Tutor:</label>
+                    <select id="tutorAnimal" name="tutorId" class="form-select" required>
+                        <option value="">Selecione o Tutor</option>
+                    </select>
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="castradoAnimal" name="castrado">
+                    <label for="castradoAnimal" class="form-label">Castrado</label>
+                </div>
+                <div class="form-group">
+                    <label for="descricaoSaudeAnimal" class="form-label">Descrição da Saúde:</label>
+                    <textarea id="descricaoSaudeAnimal" name="descricaoSaude" class="form-textarea"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="necessidadesEspeciaisAnimal" class="form-label">Necessidades Especiais:</label>
+                    <textarea id="necessidadesEspeciaisAnimal" name="necessidadesEspeciais" class="form-textarea"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="descricaoAnimal" class="form-label">Descrição Geral:</label>
+                    <textarea id="descricaoAnimal" name="descricao" class="form-textarea"></textarea>
+                </div>
+                <div class="btn-group flex justify-end">
+                    <button type="button" class="btn btn-secondary" onclick="closeAnimalModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Animal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/animal.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            loadAnimals();
+            loadEspeciesForAnimalForm();
+            loadTutoresForAnimalForm();
+        });
+    </script>
+</body>
+</html>
+

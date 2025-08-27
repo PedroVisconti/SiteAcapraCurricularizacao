@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACAPRA - Gerenciar Vacinas</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>Gerenciamento de Vacinas</h1>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link">Dashboard</a></li>
+                <li><a href="animals.html" class="nav-link">Animais</a></li>
+                <li><a href="vacinas.html" class="nav-link active">Vacinas</a></li>
+                <li><a href="racas.html" class="nav-link">Raças</a></li>
+                <li><a href="tutores.html" class="nav-link">Tutores</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <div class="card-header flex justify-between align-center">
+                <h2 class="card-title">Lista de Vacinas</h2>
+                <button class="btn btn-primary" onclick="openVacinaModal()">Adicionar Vacina</button>
+            </div>
+            <div id="vacina-list-container" class="table-container">
+                <!-- A lista de vacinas será carregada aqui pelo JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para Adicionar/Editar Vacina -->
+    <div id="vacinaModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="vacinaModalTitle">Adicionar Nova Vacina</h3>
+                <span class="close" onclick="closeVacinaModal()">&times;</span>
+            </div>
+            <form id="vacinaForm">
+                <input type="hidden" id="vacinaId" name="id">
+                <div class="form-group">
+                    <label for="nomeVacina" class="form-label">Nome:</label>
+                    <input type="text" id="nomeVacina" name="nome" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="descricaoVacina" class="form-label">Descrição:</label>
+                    <textarea id="descricaoVacina" name="descricao" class="form-textarea"></textarea>
+                </div>
+                <div class="btn-group flex justify-end">
+                    <button type="button" class="btn btn-secondary" onclick="closeVacinaModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Vacina</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/vacina.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            loadVacinas();
+        });
+    </script>
+</body>
+</html>
+
