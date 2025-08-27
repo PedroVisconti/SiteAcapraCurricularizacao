@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SiteAcapra.Models;
+using BCrypt.Net;
 
 namespace SiteAcapra.Data
 {
@@ -169,6 +170,23 @@ namespace SiteAcapra.Data
                     TipoUsuarioId = 2,
                     Nome = "Adotante",
                     Excluido = false,
+                }
+            );
+
+            modelBuilder.Entity<Usuario>().HasData(
+
+                new Usuario
+                {
+                    UsuarioId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                    Nome = "Administrador",
+                    Email = "adm@acapra.com",
+                    Senha = "$2a$11$5U1NDLDWuSfVKTQRIgereuQ81YCMjhimZ2qpYM0WMcdjgkY7hEhwi",
+                    Cpf = "00000000000",
+                    Telefone = "00000000000",
+                    Endereco = "Endereço do Administrador",
+                    DataNascimento = new DateOnly(2000, 1, 1),
+                    Sexo = 'M',
+                    TipoUsuarioId = 1,
                 }
             );
         }
