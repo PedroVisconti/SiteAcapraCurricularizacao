@@ -1,7 +1,7 @@
 ﻿using SiteAcapra.Validations;
 using System.ComponentModel.DataAnnotations;
 
-namespace SiteAcapra.DTOs
+namespace SiteAcapra.DTOs.Requests
 {
     public class RegisterRequest
     {

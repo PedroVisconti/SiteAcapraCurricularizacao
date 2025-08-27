@@ -1,6 +1,8 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SiteAcapra.Data;
-using SiteAcapra.DTOs;
+using SiteAcapra.DTOs.Requests;
+using SiteAcapra.DTOs.Responses;
 using SiteAcapra.Models;
 
 namespace SiteAcapra.Controllers
@@ -10,32 +12,42 @@ namespace SiteAcapra.Controllers
     public class AutheticatorController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public AutheticatorController(AppDbContext context)
+        public AutheticatorController(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest dadosLogin)
         {
-            if(Request == null || string.IsNullOrEmpty(dadosLogin.email) || string.IsNullOrEmpty(dadosLogin.senha))
-            {
-                return BadRequest("Email e senha são obrigatórios.");
+            try
+            {   
+                if (Request == null || string.IsNullOrEmpty(dadosLogin.Email) || string.IsNullOrEmpty(dadosLogin.Senha))
+                {
+                    return BadRequest("Email e senha são obrigatórios.");
+                }
+
+                var usuario = _context.Usuarios.FirstOrDefault(u => u.Email == dadosLogin.Email);
+
+                if (usuario == null)
+                {
+                    return Unauthorized("Credenciais inválidas - Usuario não encontrado");
+                }
+
+                var usuarioResponse = _mapper.Map<UsuarioResponse>(usuario);
+
+                return Ok(usuarioResponse);
             }
-
-            var usuario = _context.Usuarios.FirstOrDefault(u => u.Email == dadosLogin.email);
-
-            if (usuario == null)
+            catch (Exception ex)
             {
-                return Unauthorized("Credenciais inválidas - Usuario não encontrado");
+                return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
             }
-
-
-            return Ok();
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest dadosRegistro)
         {
             var usuarioExistenteEmail = _context.Usuarios.FirstOrDefault(u => u.Email == dadosRegistro.Email);
