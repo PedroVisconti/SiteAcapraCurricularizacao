@@ -155,6 +155,22 @@ namespace SiteAcapra.Data
                 e.Property(fa => fa.AnimalId).IsRequired();
                 e.HasOne(fa => fa.Animal).WithMany(a => a.FormulariosAdocao).HasForeignKey(fa => fa.AnimalId).HasConstraintName("FK_Formulario_Animal").OnDelete(DeleteBehavior.Cascade);
             });
+
+            modelBuilder.Entity<TipoUsuario>().HasData(
+
+                new TipoUsuario
+                {
+                    TipoUsuarioId = 1,
+                    Nome = "Administrador",
+                    Excluido = false,
+                },
+                new TipoUsuario
+                {
+                    TipoUsuarioId = 2,
+                    Nome = "Adotante",
+                    Excluido = false,
+                }
+            );
         }
     }
 }
