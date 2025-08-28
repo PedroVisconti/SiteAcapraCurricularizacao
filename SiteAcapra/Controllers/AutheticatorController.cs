@@ -1,7 +1,11 @@
+using AutoMapper;
+using BCrypt.Net;
 using Microsoft.AspNetCore.Mvc;
 using SiteAcapra.Data;
-using SiteAcapra.DTOs;
+using SiteAcapra.DTOs.Requests;
+using SiteAcapra.DTOs.Responses;
 using SiteAcapra.Models;
+using SiteAcapra.Services;
 
 namespace SiteAcapra.Controllers
 {
@@ -10,32 +14,55 @@ namespace SiteAcapra.Controllers
     public class AutheticatorController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly JwtService _jwtService;
 
-        public AutheticatorController(AppDbContext context)
+        public AutheticatorController(AppDbContext context, IMapper mapper, JwtService jwtService )
         {
             _context = context;
+            _mapper = mapper;
+            _jwtService = jwtService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Login([FromBody] LoginRequest dadosLogin)
+        [HttpPost("login")]
+        public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest dadosLogin)
         {
-            if(Request == null || string.IsNullOrEmpty(dadosLogin.email) || string.IsNullOrEmpty(dadosLogin.senha))
+            try
             {
-                return BadRequest("Email e senha são obrigatórios.");
+                if (Request == null || string.IsNullOrEmpty(dadosLogin.Email) || string.IsNullOrEmpty(dadosLogin.Senha))
+                {
+                    return BadRequest("Email e senha são obrigatórios.");
+                }
+
+                var usuario = _context.Usuarios.FirstOrDefault(u => u.Email == dadosLogin.Email);
+
+                if (usuario == null)
+                {
+                    return Unauthorized("Credenciais inválidas - Usuario não encontrado");
+                }
+
+                if (BCrypt.Net.BCrypt.Verify(dadosLogin.Senha, usuario.Senha))
+                {
+                    return Unauthorized("Credenciais inválidas - Senha incorreta");
+                }
+
+                var usuarioResponse = _mapper.Map<UsuarioResponse>(usuario);
+
+                var loginResponse = new LoginResponse
+                {
+                    Token = _jwtService.GerarToken(usuario.UsuarioId, usuario.Email, usuario.Senha),
+                    Usuario = usuarioResponse
+                };
+
+                return Ok(loginResponse);
             }
-
-            var usuario = _context.Usuarios.FirstOrDefault(u => u.Email == dadosLogin.email);
-
-            if (usuario == null)
+            catch (Exception ex)
             {
-                return Unauthorized("Credenciais inválidas - Usuario não encontrado");
+                return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
             }
-
-
-            return Ok();
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest dadosRegistro)
         {
             var usuarioExistenteEmail = _context.Usuarios.FirstOrDefault(u => u.Email == dadosRegistro.Email);
@@ -50,28 +77,15 @@ namespace SiteAcapra.Controllers
                 return Conflict("Já existe um usuário cadastrado com esse CPF.");
             }
 
-            /* 
-             * string senhaCriptografada = BCrypt.Net.BCrypt.HashPassword(dadosRegistro.Senha); 
-             * Verificar com o pedro qual o tipo de criptografica que ele quer
-             */
+            var usuario = _mapper.Map<Usuario>(dadosRegistro);
 
-            var usuario = new Usuario
-            {
-                UsuarioId = Guid.NewGuid(),
-                Nome = dadosRegistro.Nome,
-                Email = dadosRegistro.Email,
-                Senha = dadosRegistro.Senha,
-                Cpf = dadosRegistro.Cpf,
-                Telefone = dadosRegistro.Telefone,
-                Endereco = dadosRegistro.Endereco,
-                DataNascimento = dadosRegistro.DataNascimento,
-                Sexo = dadosRegistro.Sexo,
-                Excluido = false,
-                TipoUsuarioId = 2
-            };
+            usuario.TipoUsuarioId = 2;
+            usuario.Senha = BCrypt.Net.BCrypt.HashPassword(dadosRegistro.Senha);
 
             _context.Usuarios.Add(usuario);
+
             await _context.SaveChangesAsync();
+
             return Ok("Usuário cadastrado com sucesso");
         }
 
