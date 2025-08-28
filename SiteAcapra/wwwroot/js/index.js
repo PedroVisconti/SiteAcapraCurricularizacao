@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <p class="animal-description">${animal.descricao}</p>
                 </div>
             </div>
-            <button class="adopt-button">Adotar</button>
+            <button class="adopt-button" onclick="window.location.href='formulario.html'">Adotar</button>
         `;
 
         animalList.appendChild(card);
