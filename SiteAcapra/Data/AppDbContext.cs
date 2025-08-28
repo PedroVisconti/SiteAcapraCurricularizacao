@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SiteAcapra.Models;
+using BCrypt.Net;
 
 namespace SiteAcapra.Data
 {
@@ -85,7 +86,7 @@ namespace SiteAcapra.Data
                 e.HasOne(a => a.Raca).WithMany(r => r.Animais).HasForeignKey(a => a.RacaId).HasConstraintName("FK_Animal_Raca").OnDelete(DeleteBehavior.Restrict);
                 e.Property(a => a.EspecieId).IsRequired();
                 e.HasOne(a => a.Especie).WithMany(e => e.Animais).HasForeignKey(a => a.EspecieId).HasConstraintName("FK_Animal_Especie").OnDelete(DeleteBehavior.Restrict);
-                e.Property(a => a.TutorId).IsRequired();
+                e.Property(a => a.TutorId).IsRequired(false);
                 e.HasOne(a => a.Tutor).WithMany(t => t.Animals).HasForeignKey(a => a.TutorId).HasConstraintName("FK_Animal_Tutor").OnDelete(DeleteBehavior.Restrict);
                 e.HasMany(a => a.Fotos).WithOne(f => f.Animal).HasForeignKey(f => f.AnimalId).HasConstraintName("FK_Foto_Animal").OnDelete(DeleteBehavior.Cascade);
                 e.HasMany(a => a.FormulariosAdocao).WithOne(f => f.Animal).HasForeignKey(f => f.AnimalId).HasConstraintName("FK_Formulario_Animal").OnDelete(DeleteBehavior.Cascade);
@@ -169,6 +170,23 @@ namespace SiteAcapra.Data
                     TipoUsuarioId = 2,
                     Nome = "Adotante",
                     Excluido = false,
+                }
+            );
+
+            modelBuilder.Entity<Usuario>().HasData(
+
+                new Usuario
+                {
+                    UsuarioId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                    Nome = "Administrador",
+                    Email = "adm@acapra.com",
+                    Senha = "$2a$11$5U1NDLDWuSfVKTQRIgereuQ81YCMjhimZ2qpYM0WMcdjgkY7hEhwi",
+                    Cpf = "00000000000",
+                    Telefone = "00000000000",
+                    Endereco = "Endereço do Administrador",
+                    DataNascimento = new DateOnly(2000, 1, 1),
+                    Sexo = 'M',
+                    TipoUsuarioId = 1,
                 }
             );
         }

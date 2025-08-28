@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SiteAcapra.Data;
 
@@ -11,9 +12,11 @@ using SiteAcapra.Data;
 namespace SiteAcapra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250827232358_AddUsuarioAdm")]
+    partial class AddUsuarioAdm
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,7 +80,7 @@ namespace SiteAcapra.Migrations
                     b.Property<int>("RacaId")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("TutorId")
+                    b.Property<Guid>("TutorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("AnimalId")
@@ -397,9 +400,6 @@ namespace SiteAcapra.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VacinaId"));
 
-                    b.Property<DateOnly?>("DataAplicacao")
-                        .HasColumnType("date");
-
                     b.Property<bool>("Excluido")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -435,6 +435,7 @@ namespace SiteAcapra.Migrations
                         .WithMany("Animals")
                         .HasForeignKey("TutorId")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
                         .HasConstraintName("FK_Animal_Tutor");
 
                     b.Navigation("Especie");
