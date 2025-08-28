@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+using AutoMapper;
+using SiteAcapra.DTOs;
 using SiteAcapra.DTOs.AnimalDTO;
 using SiteAcapra.DTOs.Requests;
 using SiteAcapra.DTOs.Responses;
@@ -10,8 +11,8 @@ namespace SiteAcapra.Mappings
     {
         public MappingProfile()
         {
-            // primeiro qual sera a saida e em segundo oque vai ser usado como paramentro para criar
-
+            CreateMap<Especie, SpeciesResponse>();
+            CreateMap<SpeciesRequest, Especie>();
             CreateMap<Usuario, UsuarioResponse>(); 
             CreateMap<RegisterRequest, Usuario>();
             CreateMap<Vacina, AnimalVacinaDTO>()
