@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACAPRA - Dashboard</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>ACAPRA - Sistema de Gerenciamento</h1>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link active">Dashboard</a></li>
+                <li><a href="animals.html" class="nav-link">Animais</a></li>
+                <li><a href="vacinas.html" class="nav-link">Vacinas</a></li>
+                <li><a href="racas.html" class="nav-link">Raças</a></li>
+                <li><a href="tutores.html" class="nav-link">Tutores</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Visão Geral</h2>
+            </div>
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalAnimals">0</div>
+                    <div class="stat-label">Total de Animais</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="animalsAvailable">0</div>
+                    <div class="stat-label">Disponíveis para Adoção</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="animalsAdopted">0</div>
+                    <div class="stat-label">Animais Adotados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalTutors">0</div>
+                    <div class="stat-label">Total de Tutores</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Ações Rápidas</h2>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="navigateTo(\'animals.html\')">Gerenciar Animais</button>
+                <button class="btn btn-success" onclick="navigateTo(\'vacinas.html\')">Gerenciar Vacinas</button>
+                <button class="btn btn-warning" onclick="navigateTo(\'racas.html\')">Gerenciar Raças</button>
+                <button class="btn btn-secondary" onclick="navigateTo(\'tutores.html\')">Gerenciar Tutores</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/app.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            loadDashboardStats();
+        });
+
+        function loadDashboardStats() {
+            Utils.showLoading(true);
+            const animals = dataManager.getAll("animais");
+            const tutors = dataManager.getAll("tutores");
+
+            document.getElementById("totalAnimals").textContent = animals.length;
+            document.getElementById("animalsAvailable").textContent = animals.filter(a => !a.adotado).length;
+            document.getElementById("animalsAdopted").textContent = animals.filter(a => a.adotado).length;
+            document.getElementById("totalTutors").textContent = tutors.length;
+            Utils.showLoading(false);
+        }
+    </script>
+</body>
+</html>
+

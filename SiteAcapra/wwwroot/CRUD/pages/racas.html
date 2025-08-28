@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACAPRA - Gerenciar Raças</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>Gerenciamento de Raças</h1>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link">Dashboard</a></li>
+                <li><a href="animals.html" class="nav-link">Animais</a></li>
+                <li><a href="vacinas.html" class="nav-link">Vacinas</a></li>
+                <li><a href="racas.html" class="nav-link active">Raças</a></li>
+                <li><a href="tutores.html" class="nav-link">Tutores</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <div class="card-header flex justify-between align-center">
+                <h2 class="card-title">Lista de Raças</h2>
+                <button class="btn btn-primary" onclick="openRacaModal()">Adicionar Raça</button>
+            </div>
+            <div id="raca-list-container" class="table-container">
+                <!-- A lista de raças será carregada aqui pelo JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para Adicionar/Editar Raça -->
+    <div id="racaModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="racaModalTitle">Adicionar Nova Raça</h3>
+                <span class="close" onclick="closeRacaModal()">&times;</span>
+            </div>
+            <form id="racaForm">
+                <input type="hidden" id="racaId" name="id">
+                <div class="form-group">
+                    <label for="nomeRaca" class="form-label">Nome:</label>
+                    <input type="text" id="nomeRaca" name="nome" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="especieRaca" class="form-label">Espécie:</label>
+                    <select id="especieRaca" name="especieId" class="form-select" required>
+                        <option value="">Selecione a Espécie</option>
+                    </select>
+                </div>
+                <div class="btn-group flex justify-end">
+                    <button type="button" class="btn btn-secondary" onclick="closeRacaModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Raça</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/raca.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            loadRacas();
+            loadEspeciesForRacaForm();
+        });
+    </script>
+</body>
+</html>
+
