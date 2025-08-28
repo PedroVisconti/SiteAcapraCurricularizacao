@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const animais = [
         {
             "nome": "Rex",
@@ -51,10 +51,15 @@ document.addEventListener("DOMContentLoaded", function() {
                     <p class="animal-description">${animal.descricao}</p>
                 </div>
             </div>
-            <button class="adopt-button" onclick="window.location.href='formulario.html'">Adotar</button>
+            <button class="adopt-button">Adotar</button>
         `;
+
+        // Evento do botão "Adotar"
+        card.querySelector(".adopt-button").addEventListener("click", () => {
+            localStorage.setItem("animalSelecionado", JSON.stringify(animal));
+            window.location.href = "formularioDog.html";
+        });
 
         animalList.appendChild(card);
     });
 });
-

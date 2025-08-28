@@ -237,6 +237,16 @@ body {
     font-size: medium;
     margin-top: 10px;
     margin-bottom: 10px;
+    cursor: pointer;
+}
+.adopt-button:hover {
+    background-color: #4b44d1;
+    transition: background-color 0,3s;
+}
+
+.adopt-button:active {
+    background-color: #3a34a3;
+    transition: background-color 0,3s;
 }
 
 .animal-description {  
