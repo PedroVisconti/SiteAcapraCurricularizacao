@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SiteAcapra.Data;
+using SiteAcapra.DTOs.Requests;
 using SiteAcapra.DTOs.Responses;
+using SiteAcapra.Models;
 using SiteAcapra.Services;
 
 namespace SiteAcapra.Controllers
@@ -40,27 +42,80 @@ namespace SiteAcapra.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> ObterAnimalPorId(int id)
+        public async Task<ActionResult<AnimalResponse>> ObterAnimalPorId(int id)
         {
+            var animal = await _context.Animais
+                .Include(a => a.Raca)
+                .Include(a => a.Especie)
+                .Include(a => a.Tutor)
+                .Include(a => a.Fotos)
+                .Include(a => a.AnimalVacinas)
+                    .ThenInclude(av => av.Vacina)
+                .FirstOrDefaultAsync(a => a.AnimalId == id && a.Excluido == false);
+
+            if(animal == null)
+            {
+                return NotFound("Animal não encontrado");
+            }
+
+            var animalResponse = _mapper.Map<AnimalResponse>(animal);
+
             return Ok();
         }
 
         [HttpPost]
-        public async Task<ActionResult> CadastrarAnimal()
+        public async Task<ActionResult> CadastrarAnimal([FromBody]AnimalRequest animalRequest)
         {
-            return Ok();
+            if (animalRequest == null)
+                return BadRequest("Dados inválidos");
+
+            var animal = _mapper.Map<Animal>(animalRequest);
+
+            _context.Animais.Add(animal);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Animal cadastrado com sucesso!", animal.AnimalId });
         }
 
         [HttpPut]
-        public async Task<ActionResult> AtualizarAnimal()
+        public async Task<ActionResult> AtualizarAnimal(AnimalUpdateRequest animalUpdateRequest)
         {
-            return Ok();
+            var animal = await _context.Animais
+                .Include(a => a.Fotos)
+                .Include(a => a.AnimalVacinas)
+                .FirstOrDefaultAsync(a => a.AnimalId == animalUpdateRequest.AnimalId);
+
+            if (animal == null)
+                return NotFound("Animal não encontrado");
+
+            _mapper.Map(animalUpdateRequest, animal);
+
+            animal.Fotos.Clear();
+            animal.AnimalVacinas.Clear();
+
+            _mapper.Map(animalUpdateRequest.Fotos, animal.Fotos);
+            _mapper.Map(animalUpdateRequest.AnimalVacinas, animal.AnimalVacinas);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Animal atualizado com sucesso!" });
         }
 
-        [HttpDelete]
-        public async Task<ActionResult> DeletarAnimal()
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeletarAnimal(int id)
         {
-            return Ok();
+            var animal = await _context.Animais.FirstOrDefaultAsync(a => a.AnimalId == id);
+
+            if (animal == null)
+                return NotFound("Animal não encontrado");
+
+            if (animal.Excluido)
+                return BadRequest("Este animal já foi excluído");
+
+            animal.Excluido = true;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Animal excluído com sucesso!" });
         }
     }
 }
