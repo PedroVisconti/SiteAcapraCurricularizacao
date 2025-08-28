@@ -11,6 +11,8 @@ namespace SiteAcapra.Mappings
     {
         public MappingProfile()
         {
+            CreateMap<BreedRequest, Raca>();
+            CreateMap<Raca, BreedResponse>();
             CreateMap<Especie, SpeciesResponse>();
             CreateMap<SpeciesRequest, Especie>();
             CreateMap<Usuario, UsuarioResponse>(); 
