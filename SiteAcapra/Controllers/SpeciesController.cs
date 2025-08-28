@@ -88,9 +88,9 @@ namespace SiteAcapra.Controllers
                     return NotFound("Especie não encontrada.");
                 }
 
-                var temAnimais = await _context.Animais.AnyAsync(a => a.EspecieId == id);
+                var temAnimaisAtivos = await _context.Animais.AnyAsync(a => a.EspecieId == id && a.Excluido == false);
 
-                if (temAnimais)
+                if (temAnimaisAtivos)
                 {
                     return BadRequest("Não é possível excluir esta espécie, pois existem animais associados a ela.");
                 }
