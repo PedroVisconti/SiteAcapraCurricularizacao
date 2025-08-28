@@ -43,18 +43,18 @@ namespace SiteAcapra.Controllers
 
                 if (BCrypt.Net.BCrypt.Verify(dadosLogin.Senha, usuario.Senha))
                 {
-                    return Unauthorized("Credenciais inválidas - Senha incorreta ");
+                    return Unauthorized("Credenciais inválidas - Senha incorreta");
                 }
 
                 var usuarioResponse = _mapper.Map<UsuarioResponse>(usuario);
 
                 var loginResponse = new LoginResponse
                 {
-                    Usuario = usuarioResponse,
-                    Token = _jwtService.GerarToken(usuario.UsuarioId, usuario.Email)
+                    Token = _jwtService.GerarToken(usuario.UsuarioId, usuario.Email, usuario.Senha),
+                    Usuario = usuarioResponse
                 };
 
-                return Ok(usuarioResponse);
+                return Ok(loginResponse);
             }
             catch (Exception ex)
             {

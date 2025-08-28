@@ -16,7 +16,7 @@ namespace SiteAcapra.Services
             _expiryDuration = expiryDuration;
         }
 
-        public string GerarToken(Guid usuarioId, string Email)
+        public string GerarToken(Guid usuarioId, string Email, string Senha)
         {
             var key = Encoding.ASCII.GetBytes(_secretKey);
 
@@ -26,7 +26,8 @@ namespace SiteAcapra.Services
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.NameIdentifier, usuarioId.ToString()),
-                    new Claim(ClaimTypes.Email, Email)
+                    new Claim(ClaimTypes.Email, Email),
+                    new Claim(ClaimTypes.Hash, Senha)
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(_expiryDuration),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
