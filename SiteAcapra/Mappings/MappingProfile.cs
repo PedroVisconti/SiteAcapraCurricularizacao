@@ -11,6 +11,13 @@ namespace SiteAcapra.Mappings
     {
         public MappingProfile()
         {
+            // Primeiro informa qual sera a entrada e em segundo a saida
+
+            CreateMap<TutorResponse, Tutor>();
+            CreateMap<Tutor, TutorResponse>();
+            CreateMap<TutorRequest, Tutor>()
+                .ForMember(dest => dest.Excluido, opt => opt.MapFrom(src => false))
+                .ForMember(dest => dest.DataCadastro, opt => opt.MapFrom(src => DateTime.UtcNow));
             CreateMap<BreedRequest, Raca>();
             CreateMap<Raca, BreedResponse>();
             CreateMap<Especie, SpeciesResponse>();

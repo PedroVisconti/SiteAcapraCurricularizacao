@@ -29,7 +29,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddSingleton(new JwtService(builder.Configuration["Jwt:Key"], int.Parse(builder.Configuration["Jwt:ExpireHours"])));
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection2");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
