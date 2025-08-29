@@ -14,10 +14,11 @@ namespace SiteAcapra.Data
         public DbSet<Raca> Racas => Set<Raca>();
         public DbSet<Especie> Especies => Set<Especie>();
         public DbSet<Tutor> Tutores => Set<Tutor>();
-        public DbSet<Foto> Fotos => Set<Foto>();
+        public DbSet<FotoDoAnimal> Fotos => Set<FotoDoAnimal>();
         public DbSet<Vacina> Vacinas => Set<Vacina>();
         public DbSet<AnimalVacina> AnimalVacinas => Set<AnimalVacina>();
         public DbSet<FormularioAdocao> FormularioAdocoes => Set<FormularioAdocao>();
+        public DbSet<FotoDocumentos> FotosDocumentos => Set<FotoDocumentos>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -117,10 +118,10 @@ namespace SiteAcapra.Data
                 e.Property(t => t.Excluido).IsRequired().HasDefaultValue(false);
             });
 
-            modelBuilder.Entity<Foto>(e =>
+            modelBuilder.Entity<FotoDoAnimal>(e =>
             {
-                e.ToTable("Foto");
-                e.HasKey(f => f.FotoId).HasName("PK_Foto");
+                e.ToTable("FotoDoAnimal");
+                e.HasKey(f => f.FotoId).HasName("PK_FotoDoAnimal");
                 e.Property(f => f.FotoId).ValueGeneratedOnAdd();
                 e.Property(f => f.FotoHash).IsRequired();
                 e.Property(f => f.Excluido).IsRequired().HasDefaultValue(false);
@@ -137,25 +138,67 @@ namespace SiteAcapra.Data
                 e.Property(tu => tu.Excluido).IsRequired().HasDefaultValue(false);
                 e.HasMany(tu => tu.Usuario).WithOne(u => u.TipoUsuario).HasForeignKey(u => u.TipoUsuarioId).HasConstraintName("FK_Usuario_TipoUsuario").OnDelete(DeleteBehavior.Restrict);
             });
-            
+
             modelBuilder.Entity<FormularioAdocao>(e =>
             {
                 e.ToTable("FormularioAdocao");
-                e.HasKey(fa => fa.FormularioAdocaoId).HasName("PK_FormularioAdocao");
+                e.HasKey(fa => fa.FormularioAdocaoId).HasName("PK_FormularioAdocao"); ;
                 e.Property(fa => fa.FormularioAdocaoId).ValueGeneratedOnAdd();
                 e.Property(fa => fa.DataPreenchimento)
                     .HasConversion(
                         v => v.ToDateTime(TimeOnly.MinValue),
                         v => DateOnly.FromDateTime(v)
-                    )
-                    .HasColumnType("datetime").IsRequired();
-                e.Property(fa => fa.Resposta).IsRequired();
-                e.Property(fa => fa.Excluido).IsRequired().HasDefaultValue(false);
-                e.Property(fa => fa.UsuarioId).IsRequired();
-                e.HasOne(fa => fa.Usuario).WithMany(u => u.Formularios).HasForeignKey(fa => fa.UsuarioId).HasConstraintName("FK_Formulario_Usuario").OnDelete(DeleteBehavior.Restrict);
-                e.Property(fa => fa.AnimalId).IsRequired();
-                e.HasOne(fa => fa.Animal).WithMany(a => a.FormulariosAdocao).HasForeignKey(fa => fa.AnimalId).HasConstraintName("FK_Formulario_Animal").OnDelete(DeleteBehavior.Cascade);
+                    );
+                e.Property(fa => fa.Status)
+                    .HasDefaultValue(1) 
+                    .IsRequired();
+                e.Property(fa => fa.Excluido)
+                    .HasDefaultValue(false)
+                    .IsRequired();
+                e.Property(fa => fa.NomeCompleto).HasMaxLength(150).IsRequired();
+                e.Property(fa => fa.DataNascimento).HasColumnType("date").IsRequired();
+                e.Property(fa => fa.Endereco).HasMaxLength(250).IsRequired();
+                e.Property(fa => fa.ResidenciaTipo).IsRequired();
+                e.Property(fa => fa.ResidenciaPropriedade).IsRequired();
+                e.Property(fa => fa.ResidenciaTemTelas).IsRequired();
+                e.Property(fa => fa.AcessoARua).IsRequired();
+                e.Property(fa => fa.ConcordanciaResidencia).IsRequired();
+                e.Property(fa => fa.TemOutrosAnimais).IsRequired();
+                e.Property(fa => fa.QuaisOutrosAnimais).HasMaxLength(200).IsRequired(false);
+                e.Property(fa => fa.OutrosAnimaisCastradosVacinados).IsRequired(false);
+                e.Property(fa => fa.Renda).HasPrecision(18, 2).IsRequired();
+                e.Property(fa => fa.CondicoesManterAnimal).IsRequired();
+                e.Property(fa => fa.ConcordaTaxaColaborativa).IsRequired();
+                e.Property(fa => fa.ConcordaCastracaoVacinacao).IsRequired();
+                e.HasOne(fa => fa.Usuario)
+                    .WithMany(u => u.Formularios)
+                    .HasForeignKey(fa => fa.UsuarioId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                e.HasOne(fa => fa.Animal)
+                    .WithMany(a => a.FormulariosAdocao)
+                    .HasForeignKey(fa => fa.AnimalId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                e.HasMany(fa => fa.FotosDocumentos)
+                    .WithOne(fd => fd.Formulario) 
+                    .HasForeignKey(fd => fd.FormularioId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
+
+            modelBuilder.Entity<FotoDocumentos>(e =>
+            {
+                e.ToTable("FotosDocumentos");
+                e.HasKey(fd => fd.FotoId).HasName("PK_FotosDocumentos");
+                e.Property(fd => fd.FotoId).ValueGeneratedOnAdd();
+                e.Property(fd => fd.FotoHash).IsRequired().HasMaxLength(255);
+                e.Property(fd => fd.Excluido).IsRequired().HasDefaultValue(false);
+                e.HasOne(fd => fd.Formulario)
+                    .WithMany(fa => fa.FotosDocumentos)
+                    .HasForeignKey(fd => fd.FormularioId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
 
             modelBuilder.Entity<TipoUsuario>().HasData(
 

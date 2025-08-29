@@ -1,6 +1,6 @@
 ﻿namespace SiteAcapra.Models
 {
-    public class Foto
+    public class FotoDoAnimal
     {
         public Guid FotoId { get; set; }
         public string FotoHash {  get; set; }
