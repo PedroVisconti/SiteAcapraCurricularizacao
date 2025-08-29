@@ -17,8 +17,8 @@ namespace SiteAcapra.DTOs.Requests
         public int RacaId { get; set; }
         public int EspecieId { get; set; }
         public Guid? TutorId { get; set; }
-        public List<FotoDTO> Fotos { get; set; } = new List<FotoDTO>();
-        public List<AnimalVacinaDTO> AnimalVacinas { get; set; } = new List<AnimalVacinaDTO>();
+        public List<FotoDoAnimalDTO>? Fotos { get; set; } = new List<FotoDoAnimalDTO>();
+        public List<AnimalVacinaDTO>? AnimalVacinas { get; set; } = new List<AnimalVacinaDTO>();
 
     }
 }

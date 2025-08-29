@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace SiteAcapra.Migrations
 {
     /// <inheritdoc />
-    public partial class IniticialCreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -134,7 +136,7 @@ namespace SiteAcapra.Migrations
                     Castrado = table.Column<bool>(type: "bit", nullable: false),
                     RacaId = table.Column<int>(type: "int", nullable: false),
                     EspecieId = table.Column<int>(type: "int", nullable: false),
-                    TutorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    TutorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -163,14 +165,15 @@ namespace SiteAcapra.Migrations
                 name: "AnimalVacina",
                 columns: table => new
                 {
+                    AnimalVacinaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     VacinaId = table.Column<int>(type: "int", nullable: false),
                     AnimalId = table.Column<int>(type: "int", nullable: false),
-                    AnimalVacinaId = table.Column<int>(type: "int", nullable: false),
                     DataVacina = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AnimalVacina", x => new { x.AnimalId, x.VacinaId });
+                    table.PrimaryKey("PK_AnimalVacinaId", x => x.AnimalVacinaId);
                     table.ForeignKey(
                         name: "FK_AnimalVacina_Animal",
                         column: x => x.AnimalId,
@@ -234,6 +237,20 @@ namespace SiteAcapra.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "TipoUsuario",
+                columns: new[] { "TipoUsuarioId", "Nome" },
+                values: new object[,]
+                {
+                    { 1, "Administrador" },
+                    { 2, "Adotante" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Usuario",
+                columns: new[] { "UsuarioId", "Cpf", "DataNascimento", "Email", "Endereco", "Nome", "Senha", "Sexo", "Telefone", "TipoUsuarioId" },
+                values: new object[] { new Guid("11111111-1111-1111-1111-111111111111"), "00000000000", new DateOnly(2000, 1, 1), "adm@acapra.com", "Endereço do Administrador", "Administrador", "$2a$11$5U1NDLDWuSfVKTQRIgereuQ81YCMjhimZ2qpYM0WMcdjgkY7hEhwi", "M", "00000000000", 1 });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Animal_EspecieId",
                 table: "Animal",
@@ -248,6 +265,11 @@ namespace SiteAcapra.Migrations
                 name: "IX_Animal_TutorId",
                 table: "Animal",
                 column: "TutorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AnimalVacina_AnimalId",
+                table: "AnimalVacina",
+                column: "AnimalId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AnimalVacina_VacinaId",
@@ -268,6 +290,12 @@ namespace SiteAcapra.Migrations
                 name: "IX_Foto_AnimalId",
                 table: "Foto",
                 column: "AnimalId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Usuario_Email",
+                table: "Usuario",
+                column: "Email",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Usuario_TipoUsuarioId",

@@ -2,7 +2,8 @@
 {
     public class AnimalVacinaDTO
     {
-        public string VacinaNome { get; set; }
+        public int VacinaId { get; set; }
+        public string Nome { get; set; }
         public DateTime DataVacina { get; set; }
     }
 }

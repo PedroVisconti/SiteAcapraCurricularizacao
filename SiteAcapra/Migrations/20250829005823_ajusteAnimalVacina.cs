@@ -5,24 +5,18 @@
 namespace SiteAcapra.Migrations
 {
     /// <inheritdoc />
-    public partial class EmailUnique : Migration
+    public partial class ajusteAnimalVacina : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateIndex(
-                name: "IX_Usuario_Email",
-                table: "Usuario",
-                column: "Email",
-                unique: true);
+
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropIndex(
-                name: "IX_Usuario_Email",
-                table: "Usuario");
+
         }
     }
 }

@@ -91,15 +91,29 @@ namespace SiteAcapra.Data
                 e.HasOne(a => a.Tutor).WithMany(t => t.Animals).HasForeignKey(a => a.TutorId).HasConstraintName("FK_Animal_Tutor").OnDelete(DeleteBehavior.Restrict);
                 e.HasMany(a => a.Fotos).WithOne(f => f.Animal).HasForeignKey(f => f.AnimalId).HasConstraintName("FK_Foto_Animal").OnDelete(DeleteBehavior.Cascade);
                 e.HasMany(a => a.FormulariosAdocao).WithOne(f => f.Animal).HasForeignKey(f => f.AnimalId).HasConstraintName("FK_Formulario_Animal").OnDelete(DeleteBehavior.Cascade);
+                e.HasMany(a => a.AnimalVacinas)
+                 .WithOne(av => av.Animal)
+                 .HasForeignKey(av => av.AnimalId)
+                 .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<AnimalVacina>(e => 
             {
                 e.ToTable("AnimalVacina");
-                e.HasKey(av => new { av.AnimalId, av.VacinaId });
-                e.HasOne(av => av.Animal).WithMany(a => a.AnimalVacinas).HasForeignKey(av => av.AnimalId).HasConstraintName("FK_AnimalVacina_Animal").OnDelete(DeleteBehavior.Cascade);
-                e.HasOne(av => av.Vacina).WithMany(v => v.AnimalVacinas).HasForeignKey(av => av.VacinaId).HasConstraintName("FK_AnimalVacina_Vacina").OnDelete(DeleteBehavior.Cascade);
-                e.Property(av => av.DataVacina).HasColumnType("datetime").IsRequired();
+                e.HasKey(av => av.AnimalVacinaId).HasName("PK_AnimalVacinaId");
+                e.HasOne(av => av.Animal)
+                 .WithMany(a => a.AnimalVacinas)
+                 .HasForeignKey(av => av.AnimalId)
+                 .HasConstraintName("FK_AnimalVacina_Animal")
+                 .OnDelete(DeleteBehavior.Cascade);
+                e.HasOne(av => av.Vacina)
+                 .WithMany(v => v.AnimalVacinas)
+                 .HasForeignKey(av => av.VacinaId)
+                 .HasConstraintName("FK_AnimalVacina_Vacina")
+                 .OnDelete(DeleteBehavior.Cascade);
+                e.Property(av => av.DataVacina)
+                 .HasColumnType("datetime")
+                 .IsRequired();
             });
 
             modelBuilder.Entity<Tutor>(e =>

@@ -2,5 +2,6 @@
 {
     public class VacinaRequest
     {
+        public string Nome { get; set; }
     }
 }

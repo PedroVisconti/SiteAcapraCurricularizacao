@@ -53,14 +53,14 @@ namespace SiteAcapra.Controllers
                     .ThenInclude(av => av.Vacina)
                 .FirstOrDefaultAsync(a => a.AnimalId == id && a.Excluido == false);
 
-            if(animal == null)
+            if (animal == null)
             {
                 return NotFound("Animal não encontrado");
             }
 
             var animalResponse = _mapper.Map<AnimalResponse>(animal);
 
-            return Ok();
+            return Ok(animalResponse);
         }
 
         [HttpPost]
@@ -77,24 +77,24 @@ namespace SiteAcapra.Controllers
             return Ok(new { message = "Animal cadastrado com sucesso!", animal.AnimalId });
         }
 
-        [HttpPut]
-        public async Task<ActionResult> AtualizarAnimal(AnimalUpdateRequest animalUpdateRequest)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> AtualizarAnimal(int id, [FromBody] AnimalRequest animalRequest)
         {
             var animal = await _context.Animais
                 .Include(a => a.Fotos)
                 .Include(a => a.AnimalVacinas)
-                .FirstOrDefaultAsync(a => a.AnimalId == animalUpdateRequest.AnimalId);
+                .FirstOrDefaultAsync(a => a.AnimalId == id);
 
             if (animal == null)
                 return NotFound("Animal não encontrado");
 
-            _mapper.Map(animalUpdateRequest, animal);
+            _mapper.Map(animalRequest, animal);
 
             animal.Fotos.Clear();
             animal.AnimalVacinas.Clear();
 
-            _mapper.Map(animalUpdateRequest.Fotos, animal.Fotos);
-            _mapper.Map(animalUpdateRequest.AnimalVacinas, animal.AnimalVacinas);
+            _mapper.Map(animalRequest.Fotos, animal.Fotos);
+            _mapper.Map(animalRequest.AnimalVacinas, animal.AnimalVacinas);
 
             await _context.SaveChangesAsync();
 

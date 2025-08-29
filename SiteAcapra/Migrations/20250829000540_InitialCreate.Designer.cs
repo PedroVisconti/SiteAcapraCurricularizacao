@@ -12,8 +12,8 @@ using SiteAcapra.Data;
 namespace SiteAcapra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250826233622_EmailUnique")]
-    partial class EmailUnique
+    [Migration("20250829000540_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,7 +80,7 @@ namespace SiteAcapra.Migrations
                     b.Property<int>("RacaId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("TutorId")
+                    b.Property<Guid?>("TutorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("AnimalId")
@@ -97,19 +97,25 @@ namespace SiteAcapra.Migrations
 
             modelBuilder.Entity("SiteAcapra.Models.AnimalVacina", b =>
                 {
-                    b.Property<int>("AnimalId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VacinaId")
-                        .HasColumnType("int");
-
                     b.Property<int>("AnimalVacinaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AnimalVacinaId"));
+
+                    b.Property<int>("AnimalId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DataVacina")
                         .HasColumnType("datetime");
 
-                    b.HasKey("AnimalId", "VacinaId");
+                    b.Property<int>("VacinaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AnimalVacinaId")
+                        .HasName("PK_AnimalVacinaId");
+
+                    b.HasIndex("AnimalId");
 
                     b.HasIndex("VacinaId");
 
@@ -246,6 +252,20 @@ namespace SiteAcapra.Migrations
                         .HasName("PK_TipoUsuario");
 
                     b.ToTable("TipoUsuario", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            TipoUsuarioId = 1,
+                            Excluido = false,
+                            Nome = "Administrador"
+                        },
+                        new
+                        {
+                            TipoUsuarioId = 2,
+                            Excluido = false,
+                            Nome = "Adotante"
+                        });
                 });
 
             modelBuilder.Entity("SiteAcapra.Models.Tutor", b =>
@@ -360,6 +380,22 @@ namespace SiteAcapra.Migrations
                     b.HasIndex("TipoUsuarioId");
 
                     b.ToTable("Usuario", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UsuarioId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            Cpf = "00000000000",
+                            DataNascimento = new DateOnly(2000, 1, 1),
+                            Email = "adm@acapra.com",
+                            Endereco = "Endereço do Administrador",
+                            Excluido = false,
+                            Nome = "Administrador",
+                            Senha = "$2a$11$5U1NDLDWuSfVKTQRIgereuQ81YCMjhimZ2qpYM0WMcdjgkY7hEhwi",
+                            Sexo = "M",
+                            Telefone = "00000000000",
+                            TipoUsuarioId = 1
+                        });
                 });
 
             modelBuilder.Entity("SiteAcapra.Models.Vacina", b =>
@@ -405,7 +441,6 @@ namespace SiteAcapra.Migrations
                         .WithMany("Animals")
                         .HasForeignKey("TutorId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
                         .HasConstraintName("FK_Animal_Tutor");
 
                     b.Navigation("Especie");

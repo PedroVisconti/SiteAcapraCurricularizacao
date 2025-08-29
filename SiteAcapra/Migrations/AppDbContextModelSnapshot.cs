@@ -94,19 +94,25 @@ namespace SiteAcapra.Migrations
 
             modelBuilder.Entity("SiteAcapra.Models.AnimalVacina", b =>
                 {
-                    b.Property<int>("AnimalId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VacinaId")
-                        .HasColumnType("int");
-
                     b.Property<int>("AnimalVacinaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AnimalVacinaId"));
+
+                    b.Property<int>("AnimalId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DataVacina")
                         .HasColumnType("datetime");
 
-                    b.HasKey("AnimalId", "VacinaId");
+                    b.Property<int>("VacinaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AnimalVacinaId")
+                        .HasName("PK_AnimalVacinaId");
+
+                    b.HasIndex("AnimalId");
 
                     b.HasIndex("VacinaId");
 
@@ -144,20 +150,76 @@ namespace SiteAcapra.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FormularioAdocaoId"));
 
+                    b.Property<bool>("AcessoARua")
+                        .HasColumnType("bit");
+
                     b.Property<int>("AnimalId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("ConcordaCastracaoVacinacao")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ConcordaTaxaColaborativa")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ConcordanciaResidencia")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CondicoesManterAnimal")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly>("DataNascimento")
+                        .HasColumnType("date");
+
                     b.Property<DateTime>("DataPreenchimento")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Endereco")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<bool>("Excluido")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
+                    b.Property<string>("NomeCompleto")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<bool?>("OutrosAnimaisCastradosVacinados")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("QuaisOutrosAnimais")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<decimal>("Renda")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ResidenciaPropriedade")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ResidenciaTemTelas")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ResidenciaTipo")
+                        .HasColumnType("int");
+
                     b.Property<string>("Resposta")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.Property<bool>("TemOutrosAnimais")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("UsuarioId")
                         .HasColumnType("uniqueidentifier");
@@ -172,7 +234,7 @@ namespace SiteAcapra.Migrations
                     b.ToTable("FormularioAdocao", (string)null);
                 });
 
-            modelBuilder.Entity("SiteAcapra.Models.Foto", b =>
+            modelBuilder.Entity("SiteAcapra.Models.FotoDoAnimal", b =>
                 {
                     b.Property<Guid>("FotoId")
                         .ValueGeneratedOnAdd()
@@ -191,11 +253,38 @@ namespace SiteAcapra.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("FotoId")
-                        .HasName("PK_Foto");
+                        .HasName("PK_FotoDoAnimal");
 
                     b.HasIndex("AnimalId");
 
-                    b.ToTable("Foto", (string)null);
+                    b.ToTable("FotoDoAnimal", (string)null);
+                });
+
+            modelBuilder.Entity("SiteAcapra.Models.FotoDocumentos", b =>
+                {
+                    b.Property<Guid>("FotoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Excluido")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("FormularioId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FotoHash")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("FotoId")
+                        .HasName("PK_FotosDocumentos");
+
+                    b.HasIndex("FormularioId");
+
+                    b.ToTable("FotosDocumentos", (string)null);
                 });
 
             modelBuilder.Entity("SiteAcapra.Models.Raca", b =>
@@ -475,15 +564,14 @@ namespace SiteAcapra.Migrations
                         .WithMany("Formularios")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("FK_Formulario_Usuario");
+                        .IsRequired();
 
                     b.Navigation("Animal");
 
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("SiteAcapra.Models.Foto", b =>
+            modelBuilder.Entity("SiteAcapra.Models.FotoDoAnimal", b =>
                 {
                     b.HasOne("SiteAcapra.Models.Animal", "Animal")
                         .WithMany("Fotos")
@@ -493,6 +581,17 @@ namespace SiteAcapra.Migrations
                         .HasConstraintName("FK_Foto_Animal");
 
                     b.Navigation("Animal");
+                });
+
+            modelBuilder.Entity("SiteAcapra.Models.FotoDocumentos", b =>
+                {
+                    b.HasOne("SiteAcapra.Models.FormularioAdocao", "Formulario")
+                        .WithMany("FotosDocumentos")
+                        .HasForeignKey("FormularioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Formulario");
                 });
 
             modelBuilder.Entity("SiteAcapra.Models.Usuario", b =>
@@ -519,6 +618,11 @@ namespace SiteAcapra.Migrations
             modelBuilder.Entity("SiteAcapra.Models.Especie", b =>
                 {
                     b.Navigation("Animais");
+                });
+
+            modelBuilder.Entity("SiteAcapra.Models.FormularioAdocao", b =>
+                {
+                    b.Navigation("FotosDocumentos");
                 });
 
             modelBuilder.Entity("SiteAcapra.Models.Raca", b =>

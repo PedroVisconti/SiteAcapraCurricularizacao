@@ -12,8 +12,8 @@ using SiteAcapra.Data;
 namespace SiteAcapra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250828231843_AjusteVacina")]
-    partial class AjusteVacina
+    [Migration("20250829005823_ajusteAnimalVacina")]
+    partial class ajusteAnimalVacina
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,19 +97,25 @@ namespace SiteAcapra.Migrations
 
             modelBuilder.Entity("SiteAcapra.Models.AnimalVacina", b =>
                 {
-                    b.Property<int>("AnimalId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VacinaId")
-                        .HasColumnType("int");
-
                     b.Property<int>("AnimalVacinaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AnimalVacinaId"));
+
+                    b.Property<int>("AnimalId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DataVacina")
                         .HasColumnType("datetime");
 
-                    b.HasKey("AnimalId", "VacinaId");
+                    b.Property<int>("VacinaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AnimalVacinaId")
+                        .HasName("PK_AnimalVacinaId");
+
+                    b.HasIndex("AnimalId");
 
                     b.HasIndex("VacinaId");
 

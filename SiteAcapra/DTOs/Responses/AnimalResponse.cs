@@ -17,7 +17,7 @@ namespace SiteAcapra.DTOs.Responses
         public RacaDTO Raca { get; set; }
         public EspecieDTO Especie { get; set; }
         public TutorDTO? Tutor { get; set; } // nullable caso não tenha tutor
-        public List<FotoDTO> Fotos { get; set; } = new List<FotoDTO>();
+        public List<FotoDoAnimalDTO> Fotos { get; set; } = new List<FotoDoAnimalDTO>();
         public List<AnimalVacinaDTO> AnimalVacinas { get; set; } = new List<AnimalVacinaDTO>();
 
 
