@@ -1,21 +1,23 @@
-﻿    document.addEventListener("DOMContentLoaded", function() {
-    const animalData = localStorage.getItem("animalSelecionado");
+﻿document.addEventListener("DOMContentLoaded", function() {
+    // Lógica para controlar a exibição dos campos de outros animais
+    const temOutrosAnimaisSelect = document.getElementById('TemOutrosAnimais');
+    const quaisOutrosAnimaisGroup = document.getElementById('quais-outros-animais-group');
+    const animaisCastradosVacinadosGroup = document.getElementById('animais-castrados-vacinados-group');
 
-    if (animalData) {
-        const animal = JSON.parse(animalData);
+    temOutrosAnimaisSelect.addEventListener('change', function() {
+        if (this.value === 'true') {
+            quaisOutrosAnimaisGroup.style.display = 'block';
+            animaisCastradosVacinadosGroup.style.display = 'block';
+            document.getElementById('QuaisOutrosAnimais').setAttribute('required', 'true');
+            document.getElementById('AnimaisCastradosVacinados').setAttribute('required', 'true');
+        } else {
+            quaisOutrosAnimaisGroup.style.display = 'none';
+            animaisCastradosVacinadosGroup.style.display = 'none';
+            document.getElementById('QuaisOutrosAnimais').removeAttribute('required');
+            document.getElementById('AnimaisCastradosVacinados').removeAttribute('required');
+        }
+    });
 
-    // Preenche a seção Sobre o Animal
-    document.querySelector(".about-animal h2").textContent = animal.nome;
-    document.querySelector(".about-animal img").src = animal.imagem;
-    document.querySelector(".about-animal img").alt = animal.nome;
-
-    const infoDiv = document.querySelector(".about-animal .info");
-    infoDiv.innerHTML = `
-    <p><strong>Raça:</strong> ${animal.raca}</p>
-    <p><strong>Idade:</strong> ${animal.idade}</p>
-    <p><strong>Peso:</strong> ${animal.peso} kg</p>
-    `;
-
-    document.querySelector(".history p").textContent = animal.descricao;
-    }
+    // Garante que o estado inicial do formulário está correto ao carregar a página
+    temOutrosAnimaisSelect.dispatchEvent(new Event('change'));
 });
