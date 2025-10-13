@@ -14,6 +14,10 @@
     padding: 15px 200px;
     background-color: white;  
     gap: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 .navbar .logo {
@@ -22,6 +26,7 @@
     gap: 8px;
     font-size: 2rem;
     font-weight: bold;
+    color: #4f46e5;
 }
 
 .navbar .nav-links {
@@ -57,17 +62,47 @@
     background-color: #3a34a3;
 }
 
+/* Hero Section */
+.hero {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+        url('https://images.unsplash.com/photo-1601758174649-4a81a2f414db?auto=format&fit=crop&w=1470&q=80');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 550px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 1rem;
+}
+
+.hero .title-hero {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+}
+
+.hero .text-hero {
+    font-size: 2rem;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+}
+
 /* Cards de Animais */
 .animal-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 40px;
-    padding: 20px;
+    padding: 60px 20px;
+    background-color: #f8f8ff;
 }
 
 .animal-card {
     border-radius: 10px;
+    display: flex;
     flex-direction: column; 
     justify-content: space-between;
     border: 1px solid #ddd;
@@ -75,14 +110,13 @@
     height: 500px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     transition: transform 0.3s, box-shadow 0.3s;
-    display: flex;
-    flex-direction: column;
     background-color: #fff;
+    overflow: hidden;
 }
 
 .animal-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.2);
 }
 
 .animal-image {
@@ -104,6 +138,11 @@
     margin-bottom: 10px;
 }
 
+.animal-name {
+    font-size: 1.4rem;
+    color: #333;
+}
+
 .animal-especie {
     color: #4f46e5;
     font-weight: bold;
@@ -115,11 +154,13 @@
 
 .animal-details {
     display: flex;
-    flex-direction: column;
-    gap: 5px;
+    flex-direction: row;
+    gap: 15px;
     font-size: 0.9rem;
     color: #3E3D41;
     margin-bottom: 10px;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 .animal-description {
@@ -137,41 +178,15 @@
     color: white;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .adopt-button:hover {
     background-color: #4b44d1;
+    transform: scale(1.05);
 }
 
-
-
-/* Hero Section */
-.hero{
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
-        url('https://images.unsplash.com/photo-1601758174649-4a81a2f414db?auto=format&fit=crop&w=1470&q=80');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 600px;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.hero .title-hero{
-    font-size: 4rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.hero .text-hero{
-    font-size: 2rem;
-}
-
-/* Seção de conteúdo */
+/* Sobre */
 .about {
     display: flex;
     flex-direction: column;
@@ -205,16 +220,16 @@
     text-align: left;
 }
 
-.about-text-content{
+.about-text-content {
     margin-bottom: 15px;
 }
 
-.about-text-content h2{
+.about-text-content h2 {
     margin-bottom: 15px;
 }
 
 /* Contato */
-.contact{
+.contact {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -224,16 +239,16 @@
     padding: 2rem;
 }
 
-.contact .title-contact{
+.contact .title-contact {
     font-size: 2.5rem;
 }
 
-.contact p{
+.contact p {
     font-size: 1.3rem;
     color: #3E3D41;
 }
 
-.contact-info{
+.contact-info {
     margin-top: 10px;
     display: flex;
     flex-wrap: wrap;
@@ -241,14 +256,14 @@
     justify-content: center;
 }
 
-.contact-details{
+.contact-details {
     display: flex;
     gap: 10px;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.icon-contact{
+.icon-contact {
     font-family: 'Material Icons';
     font-size: 24px;
     color: #332add; 
@@ -284,17 +299,66 @@ a {
 }
 
 /* Footer */
-.footer{
+.footer {
     background-color: #1f2937;
     color: rgb(199, 199, 199);
     display: flex;
     justify-content: center;
 }
 
-.footer-content{
+.footer-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
     gap: 10px;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 15px 80px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 15px 30px;
+    }
+
+    .hero .title-hero {
+        font-size: 2.5rem;
+    }
+
+    .hero .text-hero {
+        font-size: 1.2rem;
+    }
+
+    .animal-card {
+        max-width: 300px;
+        height: auto;
+    }
+
+    .about-details {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .about-details img {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        height: 400px;
+    }
+
+    .hero .title-hero {
+        font-size: 2rem;
+    }
+
+    .hero .text-hero {
+        font-size: 1rem;
+    }
 }

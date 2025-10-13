@@ -174,12 +174,14 @@ body {
 }
 
 .animal-card {
+    display: flex;                  /* 🔹 Ativa o flexbox */
+    flex-direction: column;         /* 🔹 Organiza o conteúdo em coluna */
+    justify-content: space-between; /* 🔹 Mantém o botão sempre embaixo */
+    align-items: center;
     border-radius: 10px;
-    flex-direction: column; 
-    justify-content: space-between;
     border: white solid 1px;
     max-width: 450px;
-    height: 400px; /* altura fixa do card */
+    height: 400px; /* mantém a altura fixa */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
 }
@@ -218,27 +220,29 @@ body {
     display: flex;
     text-align: left; 
     align-items: center;
-    gap: 50px;
     margin-bottom: 20px;
     color: #3E3D41;
     font-weight: bold;
     font-size: 13px;
+    gap: 15px;
 }
 
-.adopt-button{
-    width: 90%;        
-    padding: 10px;      
-    text-align: center; 
+.adopt-button {
+    margin-top: auto; /* 🔹 empurra o botão para o fim do card */
+    width: 90%;
+    padding: 10px;
+    text-align: center;
     border: none;
     border-radius: 8px;
     background-color: #5f57f3;
     color: white;
     font-weight: bold;
     font-size: medium;
-    margin-top: 10px;
     margin-bottom: 10px;
     cursor: pointer;
 }
+
+
 .adopt-button:hover {
     background-color: #4b44d1;
     transition: background-color 0,3s;
