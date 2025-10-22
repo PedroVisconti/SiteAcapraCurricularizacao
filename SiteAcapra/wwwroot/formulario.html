@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,12 +9,14 @@
     <script src="./js/form.js"></script>
     <script src="./js/preencherAnimal.js"></script>
 </head>
+
 <body>
     <div class="form-container">
         <div class="content">
             <section class="about-animal">
                 <h1>Sobre o Animal</h1>
-                <img src="" alt="Animal para adoção" class="animal-img">
+                <img src="https://www.petz.com.br/blog/wp-content/uploads/2021/09/dia-mundial-dos-animais-topo.jpg"
+                    alt="Animal para adoção" class="animal-img">
                 <h2></h2>
                 <div class="info"></div>
                 <div class="history">
@@ -30,7 +33,8 @@
             <form class="form-cadastro">
                 <div class="form-group">
                     <label for="nomeCompleto">Nome Completo *</label>
-                    <input type="text" id="nomeCompleto" name="nomeCompleto" placeholder="Digite seu nome completo" required>
+                    <input type="text" id="nomeCompleto" name="nomeCompleto" placeholder="Digite seu nome completo"
+                        required>
                 </div>
 
                 <div class="form-group">
@@ -42,7 +46,7 @@
                     <label for="telefone">Telefone *</label>
                     <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="email">E-mail *</label>
                     <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
@@ -74,7 +78,7 @@
                         <option value="false">Não</option>
                     </select>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="AcessoRua">O animal terá acesso à rua? *</label>
                     <select id="AcessoRua" name="AcessoRua" required>
@@ -92,7 +96,7 @@
                         <option value="false">Não</option>
                     </select>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="TemOutrosAnimais">Você tem outros animais em casa? *</label>
                     <select id="TemOutrosAnimais" name="TemOutrosAnimais" required>
@@ -104,7 +108,8 @@
 
                 <div class="form-group" id="quais-outros-animais-group" style="display: none;">
                     <label for="QuaisOutrosAnimais">Quais outros animais? *</label>
-                    <input type="text" id="QuaisOutrosAnimais" name="QuaisOutrosAnimais" placeholder="Ex: 2 gatos, 1 cachorro">
+                    <input type="text" id="QuaisOutrosAnimais" name="QuaisOutrosAnimais"
+                        placeholder="Ex: 2 gatos, 1 cachorro">
                 </div>
 
                 <div class="form-group" id="animais-castrados-vacinados-group" style="display: none;">
@@ -120,7 +125,7 @@
                     <label for="Renda">Qual sua renda? *</label>
                     <input type="number" id="Renda" name="Renda" placeholder="Informe sua renda" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="CondicoesManterAnimal">Você tem condições de manter o animal? *</label>
                     <select id="CondicoesManterAnimal" name="CondicoesManterAnimal" required>
@@ -131,7 +136,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="ConcordaTaxaColaborativa">Você concorda com a taxa de adoção colaborativa? R$30,00 *</label>
+                    <label for="ConcordaTaxaColaborativa">Você concorda com a taxa de adoção colaborativa? R$30,00
+                        *</label>
                     <select id="ConcordaTaxaColaborativa" name="ConcordaTaxaColaborativa" required>
                         <option value="" disabled selected>Selecione</option>
                         <option value="true">Sim</option>
@@ -171,4 +177,5 @@
         </div>
     </div>
 </body>
+
 </html>

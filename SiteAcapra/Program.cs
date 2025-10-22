@@ -43,6 +43,17 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirTudo", policy =>
+    {
+        policy
+            .AllowAnyOrigin()   // permite qualquer origem (para testes)
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -65,7 +76,7 @@ app.UseDefaultFiles();
 app.UseStaticFiles(); 
 
 app.UseHttpsRedirection();
-
+app.UseCors("PermitirTudo");
 app.UseAuthorization();
 
 app.MapControllers();
