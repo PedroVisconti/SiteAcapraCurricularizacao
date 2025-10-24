@@ -1,93 +1,114 @@
-// Funções CRUD para Raças
+const API_URL = "https://localhost:7162/api";
 
-function loadRacas() {
-    Utils.showLoading(true);
-    const racas = dataManager.getAll("racas");
-    const especies = dataManager.getAll("especies");
-    const racasWithEspecie = racas.map(raca => ({
-        ...raca,
-        especieNome: especies.find(e => e.id === raca.especieId)?.nome || 'N/A'
-    }));
-
-    const columns = [
-        { label: 'Nome', field: 'nome' },
-        { label: 'Espécie', field: 'especieNome' }
-    ];
-    const actions = [
-        { label: 'Editar', type: 'warning', onclick: 'editRaca' },
-        { label: 'Excluir', type: 'danger', onclick: 'deleteRaca' }
-    ];
-    TableManager.renderTable('raca-list-container', racasWithEspecie, columns, actions);
-    Utils.showLoading(false);
+// ========== FUNÇÃO UTILITÁRIA ==========
+async function fetchJSON(url, options = {}) {
+    const res = await fetch(url, options);
+    if (!res.ok) throw new Error(`Erro: ${res.status} ${res.statusText}`);
+    return res.json();
 }
 
-function openRacaModal(racaId = null) {
-    const modalTitle = document.getElementById('racaModalTitle');
-    const racaForm = document.getElementById('racaForm');
-    FormManager.clearForm(racaForm);
-
-    if (racaId) {
-        modalTitle.textContent = 'Editar Raça';
-        const raca = dataManager.getById('racas', racaId);
-        if (raca) {
-            FormManager.populateForm(racaForm, raca);
-        }
-    } else {
-        modalTitle.textContent = 'Adicionar Nova Raça';
-    }
-    ModalManager.show('racaModal');
-}
-
-function closeRacaModal() {
-    ModalManager.hide('racaModal');
-}
-
-document.getElementById('racaForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    Utils.showLoading(true);
-    const formData = FormManager.getFormData(this);
-
-    formData.especieId = parseInt(formData.especieId);
-
-    if (formData.id) {
-        // Editar raça existente
-        dataManager.update('racas', formData.id, formData);
-        Utils.showAlert('Raça atualizada com sucesso!', 'success');
-    } else {
-        // Adicionar nova raça
-        dataManager.create('racas', formData);
-        Utils.showAlert('Raça adicionada com sucesso!', 'success');
-    }
-    closeRacaModal();
-    loadRacas();
-    Utils.showLoading(false);
-});
-
-function editRaca(id) {
-    openRacaModal(id);
-}
-
-function deleteRaca(id) {
-    if (confirm('Tem certeza que deseja excluir esta raça?')) {
+// ========== LISTAR RAÇAS ==========
+async function loadRacas() {
+    try {
         Utils.showLoading(true);
-        dataManager.delete('racas', id);
-        Utils.showAlert('Raça excluída com sucesso!', 'success');
-        loadRacas();
+
+        const racas = await fetchJSON(`${API_URL}/Breed`);
+
+        const racasSimplificadas = racas.map(raca => ({
+            id: raca.racaId || raca.id,
+            nome: raca.nome
+        }));
+
+        const columns = [
+            { label: 'Nome', field: 'nome' }
+        ];
+
+        const actions = [
+            { label: 'Editar', type: 'warning', onclick: 'editRaca' },
+            { label: 'Excluir', type: 'danger', onclick: 'deleteRaca' }
+        ];
+
+        TableManager.renderTable('raca-list-container', racasSimplificadas, columns, actions);
+
+    } catch (error) {
+        Utils.showAlert("Erro ao carregar raças: " + error.message, "error");
+    } finally {
         Utils.showLoading(false);
     }
 }
 
-// Função para carregar select de espécies no formulário de raça
-function loadEspeciesForRacaForm() {
-    const especies = dataManager.getAll('especies');
-    const especieSelect = document.getElementById('especieRaca');
-    especieSelect.innerHTML = '<option value="">Selecione a Espécie</option>';
-    especies.forEach(especie => {
-        const option = document.createElement('option');
-        option.value = especie.id;
-        option.textContent = especie.nome;
-        especieSelect.appendChild(option);
-    });
+// ========== ABRIR MODAL ==========
+async function openRacaModal(racaId = null) {
+    const modalTitle = document.getElementById('racaModalTitle');
+    const racaForm = document.getElementById('racaForm');
+    racaForm.reset();
+
+    if (racaId) {
+        modalTitle.textContent = 'Editar Raça';
+        try {
+            const raca = await fetchJSON(`${API_URL}/Breed/${racaId}`);
+            document.getElementById('racaId').value = raca.racaId;
+            document.getElementById('nomeRaca').value = raca.nome || "";
+        } catch (error) {
+            Utils.showAlert("Erro ao carregar raça: " + error.message, "error");
+        }
+    } else {
+        modalTitle.textContent = 'Adicionar Nova Raça';
+    }
+
+    ModalManager.show('racaModal');
 }
 
+// ========== FECHAR MODAL ==========
+function closeRacaModal() {
+    ModalManager.hide('racaModal');
+}
 
+// ========== SALVAR RAÇA ==========
+document.getElementById('racaForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    Utils.showLoading(true);
+
+    const id = document.getElementById('racaId').value;
+    const formData = {
+        nome: document.getElementById('nomeRaca').value
+    };
+
+    const method = id ? "PUT" : "POST";
+    const url = id ? `${API_URL}/Breed/${id}` : `${API_URL}/Breed/Register`;
+
+    try {
+        await fetch(url, {
+            method,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData)
+        });
+
+        Utils.showAlert(id ? 'Raça atualizada com sucesso!' : 'Raça adicionada com sucesso!', 'success');
+        closeRacaModal();
+        loadRacas();
+
+    } catch (error) {
+        Utils.showAlert("Erro ao salvar raça: " + error.message, "error");
+    } finally {
+        Utils.showLoading(false);
+    }
+});
+
+// ========== EXCLUIR ==========
+async function deleteRaca(id) {
+    if (!confirm('Tem certeza que deseja excluir esta raça?')) return;
+
+    try {
+        await fetch(`${API_URL}/Breed/${id}`, { method: "DELETE" });
+        Utils.showAlert('Raça excluída com sucesso!', 'success');
+        loadRacas();
+    } catch (error) {
+        Utils.showAlert('Erro ao excluir raça: ' + error.message, 'error');
+    }
+}
+
+// ========== EDITAR ==========
+function editRaca(id) {
+    openRacaModal(id);
+}

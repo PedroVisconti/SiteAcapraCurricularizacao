@@ -36,6 +36,19 @@ namespace SiteAcapra.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<BreedResponse>> ObterRacaPorId(int id)
+        {
+            var raca = await _context.Racas.FirstOrDefaultAsync(v => v.RacaId == id & v.Excluido == false);
+            if (raca == null)
+            {
+                return NotFound("Raca não encontrada");
+            }
+
+            var vacinaResponse = _mapper.Map<BreedResponse>(raca);
+            return Ok(vacinaResponse);
+        }
+
         [HttpPost("Register")]
         public async Task<IActionResult> RegisterBreeds([FromBody] BreedRequest dadosRegistro)
         {

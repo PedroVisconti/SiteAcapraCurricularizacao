@@ -39,6 +39,7 @@ namespace SiteAcapra.Mappings
                 .ForMember(dest => dest.DataVacina, opt => opt.MapFrom(src => src.DataVacina));
             CreateMap<VacinaRequest, Vacina>()
                 .ForMember(dest => dest.Excluido, opt => opt.MapFrom(src => false));
+            CreateMap<Vacina, VacinaResponse>();
             CreateMap<Raca, RacaDTO>();
             CreateMap<Especie, EspecieDTO>();
             CreateMap<FotoDoAnimal, FotoDoAnimalDTO>();

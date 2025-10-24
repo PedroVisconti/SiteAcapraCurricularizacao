@@ -74,6 +74,18 @@ namespace SiteAcapra.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<SpeciesResponse>> ObterEspeciePorId(int id)
+        {
+            var especie = await _context.Especies.FirstOrDefaultAsync(v => v.EspecieId == id & v.Excluido == false);
+            if (especie == null)
+            {
+                return NotFound("Especie não encontrada");
+            }
+
+            var vacinaResponse = _mapper.Map<SpeciesResponse>(especie);
+            return Ok(vacinaResponse);
+        }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSpecie(int id) 

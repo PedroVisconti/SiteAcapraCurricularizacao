@@ -22,9 +22,11 @@ namespace SiteAcapra.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<VacinaResponse>> ListarVacinas()
+        public async Task<ActionResult<List<VacinaResponse>>> ListarVacinas()
         {
-            var vacinas = await _context.Vacinas.ToListAsync();
+            var vacinas = await _context.Vacinas
+                .Where(v => !v.Excluido)
+                .ToListAsync();
 
             var listaVacina = _mapper.Map<List<VacinaResponse>>(vacinas);
 

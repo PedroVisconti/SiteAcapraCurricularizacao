@@ -32,7 +32,7 @@
                 <button class="btn btn-primary" onclick="openRacaModal()">Adicionar Raça</button>
             </div>
             <div id="raca-list-container" class="table-container">
-                <!-- A lista de raças será carregada aqui pelo JavaScript -->
+                <!-- Lista de raças será carregada aqui -->
             </div>
         </div>
     </main>
@@ -50,12 +50,6 @@
                     <label for="nomeRaca" class="form-label">Nome:</label>
                     <input type="text" id="nomeRaca" name="nome" class="form-input" required>
                 </div>
-                <div class="form-group">
-                    <label for="especieRaca" class="form-label">Espécie:</label>
-                    <select id="especieRaca" name="especieId" class="form-select" required>
-                        <option value="">Selecione a Espécie</option>
-                    </select>
-                </div>
                 <div class="btn-group flex justify-end">
                     <button type="button" class="btn btn-secondary" onclick="closeRacaModal()">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Salvar Raça</button>
@@ -69,9 +63,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             loadRacas();
-            loadEspeciesForRacaForm();
         });
     </script>
 </body>
 </html>
-
