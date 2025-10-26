@@ -184,6 +184,8 @@ namespace SiteAcapra.Data
                 e.Property(fa => fa.CondicoesManterAnimal).IsRequired();
                 e.Property(fa => fa.ConcordaTaxaColaborativa).IsRequired();
                 e.Property(fa => fa.ConcordaCastracaoVacinacao).IsRequired();
+                e.Property(fa => fa.Email).IsRequired();
+                e.Property(fa => fa.Telefone).IsRequired();
                 e.HasOne(fa => fa.Usuario)
                     .WithMany(u => u.Formularios)
                     .HasForeignKey(fa => fa.UsuarioId)
@@ -205,7 +207,7 @@ namespace SiteAcapra.Data
                 e.ToTable("FotosDocumentos");
                 e.HasKey(fd => fd.FotoId).HasName("PK_FotosDocumentos");
                 e.Property(fd => fd.FotoId).ValueGeneratedOnAdd();
-                e.Property(fd => fd.FotoHash).IsRequired().HasMaxLength(255);
+                e.Property(fd => fd.FotoHash).IsRequired().HasColumnType("nvarchar(MAX)");
                 e.Property(fd => fd.Excluido).IsRequired().HasDefaultValue(false);
                 e.HasOne(fd => fd.Formulario)
                     .WithMany(fa => fa.FotosDocumentos)
