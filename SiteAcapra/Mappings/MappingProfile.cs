@@ -48,6 +48,38 @@ namespace SiteAcapra.Mappings
                 .ForMember(dest => dest.Nome, opt => opt.MapFrom(src => src.Vacina != null ? src.Vacina.Nome : null))
                 .ForMember(dest => dest.VacinaId, opt => opt.MapFrom(src => src.VacinaId))
                 .ForMember(dest => dest.DataVacina, opt => opt.MapFrom(src => src.DataVacina));
+            CreateMap<FormsRequest, FormularioAdocao>()
+                .ForMember(dest => dest.FotosDocumentos, opt => opt.Ignore())
+                .AfterMap((src, dest) =>
+                {
+                    dest.FotosDocumentos = new List<FotoDocumentos>();
+
+                    if (src.Fotos != null && src.Fotos.Any())
+                    {
+                        foreach (var base64 in src.Fotos)
+                        {
+                            dest.FotosDocumentos.Add(new FotoDocumentos
+                            {
+                                FotoId = Guid.NewGuid(),
+                                FotoHash = base64.ToString(),
+                                Excluido = false
+                            });
+                        }
+                    }
+                    dest.Resposta = src.Resposta ?? "";
+                    dest.Status = 1; // pendente
+                    dest.Excluido = false;
+                    dest.DataPreenchimento = DateOnly.FromDateTime(DateTime.Now);
+                }); ;
+
+            CreateMap<FormularioAdocao, FormsResponse>()
+                            .ForMember(dest => dest.Id,
+                                       opt => opt.MapFrom(src => src.FormularioAdocaoId))
+                            .ForMember(dest => dest.Fotos,
+                                       opt => opt.MapFrom(src =>
+                                           src.FotosDocumentos != null
+                                           ? src.FotosDocumentos.Select(foto => foto.FotoHash).ToList()
+                                           : new List<string>()));
         }
     }
 }
