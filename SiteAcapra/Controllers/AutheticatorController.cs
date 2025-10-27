@@ -68,13 +68,13 @@ namespace SiteAcapra.Controllers
             var usuarioExistenteEmail = _context.Usuarios.FirstOrDefault(u => u.Email == dadosRegistro.Email);
             if (usuarioExistenteEmail != null)
             {
-                return Conflict("Já existe um usuário cadastrado com esse E-mail.");
+                return Conflict(new { message = "Já existe um usuário cadastrado com esse E-mail." });
             }
 
             var usuarioExistenteCpf = _context.Usuarios.FirstOrDefault(u => u.Cpf == dadosRegistro.Cpf);
             if (usuarioExistenteCpf != null)
             {
-                return Conflict("Já existe um usuário cadastrado com esse CPF.");
+                return Conflict(new { message = "Já existe um usuário cadastrado com esse CPF." });
             }
 
             var usuario = _mapper.Map<Usuario>(dadosRegistro);
@@ -86,7 +86,7 @@ namespace SiteAcapra.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok("Usuário cadastrado com sucesso");
+            return Ok(new { message = "Usuário cadastrado com sucesso" });
         }
 
     }

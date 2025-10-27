@@ -69,7 +69,7 @@
                 fileToBase64WithQuality(fotoLocal, 800, 0.7)
             ]);
 
-            const idDoAnimal = "1";
+            const idDoAnimal = "14";
             const idDoUsuario = "11111111-1111-1111-1111-111111111111";
 
             if (!idDoAnimal || !idDoUsuario) {

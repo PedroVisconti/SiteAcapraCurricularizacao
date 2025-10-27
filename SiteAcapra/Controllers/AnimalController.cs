@@ -33,6 +33,24 @@ namespace SiteAcapra.Controllers
                 .Include(a => a.Fotos)
                 .Include(a => a.AnimalVacinas)
                     .ThenInclude(av => av.Vacina)
+                .Where(e => e.Excluido == false)
+                .ToListAsync();
+
+            var animalReponse = _mapper.Map<List<AnimalResponse>>(animais);
+
+            return Ok(animalReponse);
+        }
+
+        [HttpGet("adocao")]
+        public async Task<ActionResult<List<AnimalResponse>>> ListarAnimaisAdocao()
+        {
+            var animais = await _context.Animais
+                .Include(a => a.Raca)
+                .Include(a => a.Especie)
+                .Include(a => a.Tutor)
+                .Include(a => a.Fotos)
+                .Include(a => a.AnimalVacinas)
+                    .ThenInclude(av => av.Vacina)
                 .Where(e => e.Excluido == false && e.Adotado == false)
                 .ToListAsync();
 
@@ -116,6 +134,22 @@ namespace SiteAcapra.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Animal excluído com sucesso!" });
+        }
+
+        [HttpPut("adocao/{id}")]
+        public async Task<ActionResult> AtualizarAdocao(int id)
+        {
+            var animal = await _context.Animais.FirstOrDefaultAsync(a => a.AnimalId == id);
+
+            if (animal == null)
+                return NotFound("Animal não encontrado");
+
+            animal.Adotado = true;
+            animal.DataAdocao = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Status de adoção atualizado com sucesso!" });
         }
     }
 }

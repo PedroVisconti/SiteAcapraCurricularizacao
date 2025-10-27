@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ACAPRA - Gerenciar Vacinas</title>
+    <title>ACAPRA - Gerenciar Espécies</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body>
     <header class="header">
         <div class="container">
-            <h1>Gerenciamento de Vacinas</h1>
+            <h1>Gerenciamento de Espécies</h1>
         </div>
     </header>
 
@@ -20,10 +20,10 @@
             <ul class="nav-list">
                 <li><a href="index.html" class="nav-link">Dashboard</a></li>
                 <li><a href="animals.html" class="nav-link">Animais</a></li>
-                <li><a href="vacinas.html" class="nav-link active">Vacinas</a></li>
+                <li><a href="vacinas.html" class="nav-link">Vacinas</a></li>
                 <li><a href="racas.html" class="nav-link">Raças</a></li>
                 <li><a href="tutores.html" class="nav-link">Tutores</a></li>
-                <li><a href="especies.html" class="nav-link">Especies</a></li>
+                <li><a href="especies.html" class="nav-link active">Especies</a></li>
                 <li><a href="formularios.html" class="nav-link">Formulários</a></li>
             </ul>
         </div>
@@ -32,41 +32,41 @@
     <main class="container">
         <div class="card">
             <div class="card-header flex justify-between align-center">
-                <h2 class="card-title">Lista de Vacinas</h2>
-                <button class="btn btn-primary" onclick="openVacinaModal()">Adicionar Vacina</button>
+                <h2 class="card-title">Lista de Espécies</h2>
+                <button class="btn btn-primary" onclick="openEspecieModal()">Adicionar Espécie</button>
             </div>
-            <div id="vacina-list-container" class="table-container">
-                <!-- A lista de vacinas será carregada aqui pelo JavaScript -->
+            <div id="especie-list-container" class="table-container">
+                <!-- Lista de espécies será carregada aqui -->
             </div>
         </div>
     </main>
 
-    <!-- Modal para Adicionar/Editar Vacina -->
-    <div id="vacinaModal" class="modal">
+    <!-- Modal para Adicionar/Editar Espécie -->
+    <div id="especieModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="vacinaModalTitle">Adicionar Nova Vacina</h3>
-                <span class="close" onclick="closeVacinaModal()">&times;</span>
+                <h3 class="modal-title" id="especieModalTitle">Adicionar Nova Espécie</h3>
+                <span class="close" onclick="closeEspecieModal()">&times;</span>
             </div>
-            <form id="vacinaForm">
-                <input type="hidden" id="vacinaId" name="id">
+            <form id="especieForm">
+                <input type="hidden" id="especieId" name="id">
                 <div class="form-group">
-                    <label for="nomeVacina" class="form-label">Nome:</label>
-                    <input type="text" id="nomeVacina" name="nome" class="form-input" required>
+                    <label for="nomeEspecie" class="form-label">Nome:</label>
+                    <input type="text" id="nomeEspecie" name="nome" class="form-input" required>
                 </div>
                 <div class="btn-group flex justify-end">
-                    <button type="button" class="btn btn-secondary" onclick="closeVacinaModal()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar Vacina</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeEspecieModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Espécie</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script src="../js/app.js"></script>
-    <script src="../js/vacina.js"></script>
+    <script src="../js/especie.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            loadVacinas();
+            loadEspecies();
         });
     </script>
 </body>

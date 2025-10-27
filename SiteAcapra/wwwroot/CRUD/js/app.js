@@ -1,3 +1,10 @@
+const usuario = JSON.parse(localStorage.getItem("usuario"));
+const token = localStorage.getItem("token");
+
+if (!usuario) {
+    // Não está logado, redireciona para login
+    window.location.href = "/login.html";
+}
 // Simulação de dados (localStorage como "banco de dados")
 class DataManager {
     constructor() {

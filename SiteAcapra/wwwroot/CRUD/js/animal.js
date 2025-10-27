@@ -1,10 +1,21 @@
-const API_URL = "https://localhost:7162/api"; // base correta da API
+const API_URL = "https://localhost:7162/api";
 
 // ========== FUNÇÃO UTILITÁRIA ==========
 async function fetchJSON(url, options = {}) {
     const res = await fetch(url, options);
+    if (res.status === 204) return null; 
     if (!res.ok) throw new Error(`Erro: ${res.status} ${res.statusText}`);
     return res.json();
+}
+
+// ========== CONVERTER ARQUIVO PARA BASE64 ==========
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = err => reject(err);
+    });
 }
 
 // ========== LISTAR ANIMAIS ==========
@@ -20,7 +31,8 @@ async function loadAnimals() {
             dataNascimento: a.dataNascimento,
             tutor: a.tutor?.nome || "-",
             castrado: a.castrado,
-            adotado: a.adotado || false
+            adotado: a.adotado === 1 || a.adotado === true, // <-- correção
+            fotos: a.fotos || []
         }));
 
         const columns = [
@@ -36,7 +48,8 @@ async function loadAnimals() {
 
         const actions = [
             { label: 'Editar', type: 'warning', onclick: 'editAnimal' },
-            { label: 'Excluir', type: 'danger', onclick: 'deleteAnimal' }
+            { label: 'Excluir', type: 'danger', onclick: 'deleteAnimal' },
+            { label: 'Adotar', type: 'success', onclick: 'markAsAdopted' } // novo botão
         ];
 
         TableManager.renderTable('animal-list-container', mapped, columns, actions);
@@ -51,20 +64,18 @@ async function openAnimalModal(animalId = null) {
     const animalForm = document.getElementById('animalForm');
     animalForm.reset();
     document.getElementById('animalId').value = "";
+    document.getElementById('fotosContainer').innerHTML = "";
+    document.getElementById('racaAnimal').innerHTML = '<option value="">Selecione a Raça</option>';
 
-    // Carrega selects em paralelo (mais rápido)
-    await Promise.all([
-        loadEspeciesForAnimalForm(),
-        loadRacasForAnimalForm(),
-        loadTutoresForAnimalForm()
-    ]);
+    // Carregar selects essenciais
+    await loadEspeciesForAnimalForm();
+    await loadTutoresForAnimalForm();
 
     if (animalId) {
         modalTitle.textContent = 'Editar Animal';
         try {
             const animal = await fetchJSON(`${API_URL}/Animal/${animalId}`);
 
-            // Preenche campos básicos
             document.getElementById('animalId').value = animal.animalId;
             document.getElementById('nomeAnimal').value = animal.nome || "";
             document.getElementById('dataNascimentoAnimal').value = animal.dataNascimento?.split('T')[0] || "";
@@ -74,27 +85,35 @@ async function openAnimalModal(animalId = null) {
             document.getElementById('necessidadesEspeciaisAnimal').value = animal.necessidadesEspeciais || "";
             document.getElementById('descricaoAnimal').value = animal.descricao || "";
 
-            // Define valores dos selects (após opções existirem)
-            const especieSelect = document.getElementById('especieAnimal');
-            const racaSelect = document.getElementById('racaAnimal');
-            const tutorSelect = document.getElementById('tutorAnimal');
-
-            especieSelect.value = animal.especieId || "";
-            racaSelect.value = animal.racaId || "";
-            tutorSelect.value = animal.tutorId || "";
-
-            // Caso o valor não exista (por ID diferente), tenta forçar seleção pelo nome
-            if (!especieSelect.value && animal.especie?.nome) {
-                const opt = [...especieSelect.options].find(o => o.textContent === animal.especie.nome);
-                if (opt) especieSelect.value = opt.value;
+            // Setar espécie e raça
+            if (animal.especie?.especieId) {
+                document.getElementById('especieAnimal').value = animal.especie.especieId;
+                await loadRacasForAnimalForm(animal.especie.especieId);
+                if (animal.raca?.racaId) {
+                    document.getElementById('racaAnimal').value = animal.raca.racaId;
+                }
             }
-            if (!racaSelect.value && animal.raca?.nome) {
-                const opt = [...racaSelect.options].find(o => o.textContent === animal.raca.nome);
-                if (opt) racaSelect.value = opt.value;
+
+            // Setar tutor
+            if (animal.tutor?.tutorId) {
+                document.getElementById('tutorAnimal').value = animal.tutor.tutorId;
             }
-            if (!tutorSelect.value && animal.tutor?.nome) {
-                const opt = [...tutorSelect.options].find(o => o.textContent === animal.tutor.nome);
-                if (opt) tutorSelect.value = opt.value;
+
+            // Vacinas selecionadas como checkboxes
+            await loadVacinasForAnimalForm(animal.animalVacinas || []);
+
+            // Fotos existentes
+            const fotosContainer = document.getElementById('fotosContainer');
+            if (animal.fotos?.length > 0) {
+                animal.fotos.forEach(f => {
+                    const img = document.createElement('img');
+                    img.src = f.fotoHash;
+                    img.className = "animal-thumb";
+                    img.style.width = "80px";
+                    img.style.height = "80px";
+                    img.style.marginRight = "5px";
+                    fotosContainer.appendChild(img);
+                });
             }
 
         } catch (error) {
@@ -102,6 +121,7 @@ async function openAnimalModal(animalId = null) {
         }
     } else {
         modalTitle.textContent = 'Adicionar Novo Animal';
+        await loadVacinasForAnimalForm();
     }
 
     ModalManager.show('animalModal');
@@ -112,8 +132,8 @@ function closeAnimalModal() {
     ModalManager.hide('animalModal');
 }
 
-// ========== SALVAR (POST / PUT) ==========
-document.getElementById('animalForm').addEventListener('submit', async function (event) {
+// ========== SALVAR ANIMAL ==========
+document.getElementById('animalForm').addEventListener('submit', async function(event) {
     event.preventDefault();
 
     const formData = {
@@ -127,13 +147,27 @@ document.getElementById('animalForm').addEventListener('submit', async function 
         descricao: document.getElementById('descricaoAnimal').value,
         especieId: parseInt(document.getElementById('especieAnimal').value),
         racaId: parseInt(document.getElementById('racaAnimal').value),
-        tutorId: document.getElementById('tutorAnimal').value
+        tutorId: document.getElementById('tutorAnimal').value,
+        fotos: [],
+        animalVacinas: []
     };
 
+    const arquivos = document.getElementById('fotosAnimal').files;
+    for (let i = 0; i < arquivos.length; i++) {
+        const base64 = await fileToBase64(arquivos[i]);
+        formData.fotos.push({ fotoHash: base64 });
+    }
+
+    // Pegar vacinas selecionadas como checkboxes
+    formData.animalVacinas = Array.from(document.querySelectorAll('#vacinasContainer input[type="checkbox"]:checked'))
+        .map(cb => ({
+            vacinaId: parseInt(cb.value),
+            nome: cb.nextSibling.textContent,
+            dataVacina: new Date().toISOString()
+        }));
+
     const method = formData.id ? "PUT" : "POST";
-    const url = formData.id
-        ? `${API_URL}/Animal/${formData.id}`
-        : `${API_URL}/Animal`;
+    const url = formData.id ? `${API_URL}/Animal/${formData.id}` : `${API_URL}/Animal`;
 
     try {
         await fetch(url, {
@@ -168,7 +202,7 @@ async function deleteAnimal(id) {
     }
 }
 
-// ========== SELECTS ==========
+// ========== CARREGAR SELECTS ==========
 async function loadEspeciesForAnimalForm() {
     const select = document.getElementById('especieAnimal');
     select.innerHTML = '<option value="">Selecione a Espécie</option>';
@@ -180,24 +214,34 @@ async function loadEspeciesForAnimalForm() {
             opt.textContent = e.nome;
             select.appendChild(opt);
         });
+        return especies;
     } catch {
         Utils.showAlert("Erro ao carregar espécies.", "error");
+        return [];
     }
 }
 
-async function loadRacasForAnimalForm() {
+async function loadRacasForAnimalForm(especieId = null) {
     const select = document.getElementById('racaAnimal');
     select.innerHTML = '<option value="">Selecione a Raça</option>';
+
+    const currentEspecieId = especieId || document.getElementById('especieAnimal').value;
+    if (!currentEspecieId) return;
+
+    const url = `${API_URL}/Breed${currentEspecieId ? `?especieId=${currentEspecieId}` : ''}`;
+
     try {
-        const racas = await fetchJSON(`${API_URL}/Breed`);
+        const racas = await fetchJSON(url);
         racas.forEach(r => {
             const opt = document.createElement('option');
             opt.value = r.id || r.racaId;
             opt.textContent = r.nome;
             select.appendChild(opt);
         });
+        return racas;
     } catch {
-        Utils.showAlert("Erro ao carregar raças.", "error");
+        Utils.showAlert("Erro ao carregar raças (verifique se a API suporta filtro por espécie).", "warning");
+        return [];
     }
 }
 
@@ -212,7 +256,62 @@ async function loadTutoresForAnimalForm() {
             opt.textContent = t.nome;
             select.appendChild(opt);
         });
+        return tutores;
     } catch {
         Utils.showAlert("Erro ao carregar tutores.", "error");
+        return [];
+    }
+}
+
+// ========== MARCAR ANIMAL COMO ADOTADO ==========
+async function markAsAdopted(id) {
+    if (!confirm("Deseja marcar este animal como adotado?")) return;
+
+    try {
+        const res = await fetch(`${API_URL}/Animal/adocao/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" }
+        });
+
+        if (!res.ok) throw new Error(`Erro: ${res.status} ${res.statusText}`);
+        const data = await res.json();
+        Utils.showAlert(data.message || "Status de adoção atualizado com sucesso!", "success");
+        loadAnimals(); // Recarregar lista
+    } catch (error) {
+        Utils.showAlert("Erro ao atualizar status de adoção: " + error.message, "error");
+    }
+}
+
+// ========== CARREGAR VACINAS COMO CHECKBOXES ==========
+async function loadVacinasForAnimalForm(selectedVacinas = []) {
+    const container = document.getElementById('vacinasContainer');
+    container.innerHTML = ''; // limpa checkboxes antigos
+
+    try {
+        const vacinas = await fetchJSON(`${API_URL}/Vacina`);
+        vacinas.forEach(v => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'checkbox-item';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `vacina_${v.vacinaId}`;
+            checkbox.value = v.vacinaId;
+            checkbox.name = 'vacinas';
+            if (selectedVacinas.some(sv => sv.vacinaId == v.vacinaId)) {
+                checkbox.checked = true;
+            }
+
+            const label = document.createElement('label');
+            label.htmlFor = `vacina_${v.vacinaId}`;
+            label.textContent = v.nome;
+
+            wrapper.appendChild(checkbox);
+            wrapper.appendChild(label);
+
+            container.appendChild(wrapper);
+        });
+    } catch {
+        Utils.showAlert("Erro ao carregar vacinas.", "error");
     }
 }

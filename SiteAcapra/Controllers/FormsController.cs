@@ -27,30 +27,28 @@ namespace SiteAcapra.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            try // <-- ADICIONE O 'try'
+            try
             {
                 var formulario = _mapper.Map<FormularioAdocao>(request);
 
                 _context.FormularioAdocoes.Add(formulario);
-                await _context.SaveChangesAsync(); // <-- O ERRO PROVAVELMENTE ACONTECE AQUI
+                await _context.SaveChangesAsync();
 
                 return Ok(new { mensagem = "Formulário enviado com sucesso!" });
             }
-            catch (Exception ex) // <-- ADICIONE O 'catch'
+            catch (Exception ex)
             {
-                // Isso captura o erro do banco de dados (ex: "FOREIGN KEY constraint failed")
-                // e o envia de volta como um JSON legível.
                 return StatusCode(500, new
                 {
                     message = "Erro interno do servidor. Verifique o InnerException.",
                     error = ex.Message,
-                    innerError = ex.InnerException?.Message // <-- A MENSAGEM MAIS IMPORTANTE
+                    innerError = ex.InnerException?.Message
                 });
             }
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTodosFormularios()
+        public async Task<ActionResult<List<FormsResponse>>> GetTodosFormularios()
         {
             var formulariosDoBanco = await _context.FormularioAdocoes
                                          .Where(f => !f.Excluido)
@@ -60,7 +58,7 @@ namespace SiteAcapra.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetFormularioPorId(int id)
+        public async Task<ActionResult<FormsResponse>> GetFormularioPorId(int id)
         {
             var formularioDoBanco = await _context.FormularioAdocoes
                                         .Include(f => f.FotosDocumentos)
@@ -77,7 +75,7 @@ namespace SiteAcapra.Controllers
         }
 
         [HttpGet("usuario/{usuarioId}")]
-        public async Task<IActionResult> GetFormularioPorUsuario(Guid usuarioId) 
+        public async Task<ActionResult<List<FormsResponse>>> GetFormularioPorUsuario(Guid usuarioId) 
         {
             var formulariosDoUsuario = await _context.FormularioAdocoes
                             .Include(f => f.FotosDocumentos)

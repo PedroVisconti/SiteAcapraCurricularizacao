@@ -21,6 +21,8 @@
                 <li><a href="vacinas.html" class="nav-link">Vacinas</a></li>
                 <li><a href="racas.html" class="nav-link">Raças</a></li>
                 <li><a href="tutores.html" class="nav-link">Tutores</a></li>
+                <li><a href="especies.html" class="nav-link">Especies</a></li>
+                <li><a href="formularios.html" class="nav-link">Formulários</a></li>
             </ul>
         </div>
     </nav>
@@ -49,38 +51,9 @@
                 </div>
             </div>
         </div>
-
-        <div class="card">
-            <div class="card-header">
-                <h2 class="card-title">Ações Rápidas</h2>
-            </div>
-            <div class="btn-group">
-                <button class="btn btn-primary" onclick="navigateTo(\'animals.html\')">Gerenciar Animais</button>
-                <button class="btn btn-success" onclick="navigateTo(\'vacinas.html\')">Gerenciar Vacinas</button>
-                <button class="btn btn-warning" onclick="navigateTo(\'racas.html\')">Gerenciar Raças</button>
-                <button class="btn btn-secondary" onclick="navigateTo(\'tutores.html\')">Gerenciar Tutores</button>
-            </div>
-        </div>
     </main>
 
     <script src="../js/app.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            loadDashboardStats();
-        });
-
-        function loadDashboardStats() {
-            Utils.showLoading(true);
-            const animals = dataManager.getAll("animais");
-            const tutors = dataManager.getAll("tutores");
-
-            document.getElementById("totalAnimals").textContent = animals.length;
-            document.getElementById("animalsAvailable").textContent = animals.filter(a => !a.adotado).length;
-            document.getElementById("animalsAdopted").textContent = animals.filter(a => a.adotado).length;
-            document.getElementById("totalTutors").textContent = tutors.length;
-            Utils.showLoading(false);
-        }
-    </script>
 </body>
 </html>
 

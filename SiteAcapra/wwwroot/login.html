@@ -60,5 +60,58 @@
         </div>
     </div>
 
+    <script>
+        const API_URL = "https://localhost:7162/api";
+
+        const form = document.querySelector(".form-login");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            // Captura os valores do formulário
+            const email = document.getElementById("email").value.trim();
+            const senha = document.getElementById("senha").value;
+
+            const loginData = { email, senha };
+
+            try {
+                const res = await fetch(`${API_URL}/Autheticator/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(loginData)
+                });
+
+                if (!res.ok) {
+                    let errMessage = "Erro desconhecido";
+                    try {
+                        const err = await res.json();
+                        errMessage = err.message || err.title || JSON.stringify(err);
+                    } catch {
+                        errMessage = await res.text();
+                    }
+                    alert("Erro ao fazer login: " + errMessage);
+                    return;
+                }
+
+                const data = await res.json();
+
+                // Salva dados no localStorage
+                localStorage.setItem("usuario", JSON.stringify(data.usuario));
+                localStorage.setItem("token", data.token);
+
+                // Redireciona baseado no tipoUsuarioId
+                if (data.usuario.tipoUsuarioId === 1) {
+                    window.location.href = "/CRUD/pages/index.html"; // ADM
+                } else if (data.usuario.tipoUsuarioId === 2) {
+                    window.location.href = "/catalogo.html"; // Usuário normal
+                } else {
+                    alert("Tipo de usuário desconhecido!");
+                }
+
+            } catch (error) {
+                alert("Erro ao fazer login: " + error.message);
+            }
+        });
+    </script>
 </body>
 </html>

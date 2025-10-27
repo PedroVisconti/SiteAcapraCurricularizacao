@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACAPRA - Formulários</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        /* 🔹 Modal grande e responsivo */
+        .modal-content {
+            max-width: 950px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 0.8rem;
+        }
+
+        .form-input,
+        textarea,
+        select {
+            width: 100%;
+        }
+
+        .form-section {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 1rem;
+        }
+
+        .form-section h4 {
+            margin-bottom: 0.8rem;
+            color: #444;
+        }
+
+        /* 📸 Imagens em grid maiores */
+        .foto-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .foto-grid img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            transition: transform 0.3s;
+        }
+
+        .foto-grid img:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>Gerenciamento de Formulários</h1>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link">Dashboard</a></li>
+                <li><a href="animals.html" class="nav-link">Animais</a></li>
+                <li><a href="vacinas.html" class="nav-link">Vacinas</a></li>
+                <li><a href="racas.html" class="nav-link">Raças</a></li>
+                <li><a href="tutores.html" class="nav-link">Tutores</a></li>
+                <li><a href="especies.html" class="nav-link">Espécies</a></li>
+                <li><a href="formularios.html" class="nav-link active">Formulários</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            <div class="card-header flex justify-between align-center">
+                <h2 class="card-title">Lista de Formulários</h2>
+            </div>
+            <div id="form-list-container" class="table-container">
+                <!-- Lista de formulários será carregada aqui -->
+            </div>
+        </div>
+    </main>
+
+    <!-- 🧾 Modal de Visualização/Resposta -->
+    <div id="formModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="formModalTitle">Responder Formulário</h3>
+                <span class="close" onclick="closeFormModal()">&times;</span>
+            </div>
+
+            <form id="formularioForm">
+                <input type="hidden" id="formId">
+
+                <div class="form-section">
+                    <h4>🧍 Dados Pessoais</h4>
+                    <div class="form-group"><label>Nome Completo:</label><input type="text" id="nomeCompleto"
+                            class="form-input" readonly></div>
+                    <div class="form-group"><label>E-mail:</label><input type="text" id="email" class="form-input"
+                            readonly></div>
+                    <div class="form-group"><label>Telefone:</label><input type="text" id="telefone" class="form-input"
+                            readonly></div>
+                    <div class="form-group"><label>Data de Nascimento:</label><input type="text" id="dataNascimento"
+                            class="form-input" readonly></div>
+                    <div class="form-group"><label>Endereço:</label><input type="text" id="endereco" class="form-input"
+                            readonly></div>
+                </div>
+
+                <div class="form-section">
+                    <h4>🏠 Informações da Residência</h4>
+                    <div class="form-group"><label>Tipo:</label><input type="text" id="residenciaTipo"
+                            class="form-input" readonly></div>
+                    <div class="form-group"><label>Propriedade:</label><input type="text" id="residenciaPropriedade"
+                            class="form-input" readonly></div>
+                    <div class="form-group"><label>Tem telas?</label><input type="text" id="residenciaTemTelas"
+                            class="form-input" readonly></div>
+                    <div class="form-group"><label>Acesso à rua?</label><input type="text" id="acessoARua"
+                            class="form-input" readonly></div>
+                    <div class="form-group"><label>Concorda com residência?</label><input type="text"
+                            id="concordanciaResidencia" class="form-input" readonly></div>
+                </div>
+
+                <div class="form-section">
+                    <h4>🐾 Outros Animais</h4>
+                    <div class="form-group"><label>Tem outros animais?</label><input type="text" id="temOutrosAnimais"
+                            class="form-input" readonly></div>
+                    <div class="form-group"><label>Quais?</label><input type="text" id="quaisOutrosAnimais"
+                            class="form-input" readonly></div>
+                    <div class="form-group"><label>Castrados/Vacinados?</label><input type="text"
+                            id="outrosAnimaisCastradosVacinados" class="form-input" readonly></div>
+                </div>
+
+                <div class="form-section">
+                    <h4>💰 Situação Financeira</h4>
+                    <div class="form-group"><label>Renda:</label><input type="text" id="renda" class="form-input"
+                            readonly></div>
+                    <div class="form-group"><label>Condições de manter animal?</label><input type="text"
+                            id="condicoesManterAnimal" class="form-input" readonly></div>
+                    <div class="form-group"><label>Concorda com taxa colaborativa?</label><input type="text"
+                            id="concordaTaxaColaborativa" class="form-input" readonly></div>
+                    <div class="form-group"><label>Concorda com castração/vacinação?</label><input type="text"
+                            id="concordaCastracaoVacinacao" class="form-input" readonly></div>
+                </div>
+
+                <div class="form-section">
+                    <h4>📸 Fotos</h4>
+                    <div id="formFotosContainer" class="foto-grid"></div>
+                </div>
+
+                <div class="form-section">
+                    <h4>📝 Resposta</h4>
+                    <div class="form-group">
+                        <label>Resposta:</label>
+                        <textarea id="formResposta" name="resposta" class="form-input" rows="4"
+                            placeholder="Digite sua resposta..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Status:</label>
+                        <select id="formStatus" name="status" class="form-input" required>
+                            <option value="1">Pendente</option>
+                            <option value="2">Aprovado</option>
+                            <option value="3">Rejeitado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="btn-group flex justify-end">
+                    <button type="button" class="btn btn-secondary" onclick="closeFormModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Resposta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/formulario.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", loadFormularios);
+    </script>
+</body>
+
+</html>

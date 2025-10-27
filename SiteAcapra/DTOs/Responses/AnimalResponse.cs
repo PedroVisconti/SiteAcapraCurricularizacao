@@ -14,6 +14,7 @@ namespace SiteAcapra.DTOs.Responses
         public DateTime DataCadastro { get; set; }
         public double? Peso { get; set; }
         public bool Castrado { get; set; }
+        public bool Adotado { get; set; }
         public RacaDTO Raca { get; set; }
         public EspecieDTO Especie { get; set; }
         public TutorDTO? Tutor { get; set; } // nullable caso não tenha tutor
