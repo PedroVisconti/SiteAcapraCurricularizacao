@@ -89,8 +89,6 @@ namespace SiteAcapra.Controllers
                 .Include(a => a.Raca)
                 .Include(a => a.Especie)
                 .Include(a => a.Fotos)
-                .Include(a => a.Descricao)
-                .Include(a => a.DataNascimento)
                 .Where(e => e.Excluido == false && e.Adotado == false)
                 .OrderByDescending(a => a.DataCadastro)
                 .Take(3)
