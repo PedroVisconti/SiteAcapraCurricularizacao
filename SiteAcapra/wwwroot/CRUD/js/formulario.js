@@ -1,13 +1,11 @@
 const API_URL = "https://localhost:7162/api";
 
-// ===== FUNÇÃO UTILITÁRIA =====
 async function fetchJSON(url, options = {}) {
     const res = await fetch(url, options);
     if (!res.ok) throw new Error(`Erro: ${res.status} ${res.statusText}`);
     return res.json();
 }
 
-// ===== LISTAR FORMULÁRIOS =====
 async function loadFormularios() {
     try {
         Utils.showLoading(true);
@@ -44,7 +42,6 @@ async function loadFormularios() {
     }
 }
 
-// ===== ABRIR MODAL =====
 async function openFormModal(formId) {
     const form = document.getElementById('formularioForm');
     const fotosContainer = document.getElementById('formFotosContainer');
@@ -56,7 +53,6 @@ async function openFormModal(formId) {
 
         const set = (id, val) => document.getElementById(id).value = val ?? "";
 
-        // Dados principais
         set('formId', f.id);
         set('nomeCompleto', f.nomeCompleto);
         set('email', f.email);
@@ -64,29 +60,24 @@ async function openFormModal(formId) {
         set('dataNascimento', f.dataNascimento);
         set('endereco', f.endereco);
 
-        // Residência
         set('residenciaTipo', f.residenciaTipo);
         set('residenciaPropriedade', f.residenciaPropriedade);
         set('residenciaTemTelas', f.residenciaTemTelas ? "Sim" : "Não");
         set('acessoARua', f.acessoARua ? "Sim" : "Não");
         set('concordanciaResidencia', f.concordanciaResidencia ? "Sim" : "Não");
 
-        // Animais
         set('temOutrosAnimais', f.temOutrosAnimais ? "Sim" : "Não");
         set('quaisOutrosAnimais', f.quaisOutrosAnimais);
         set('outrosAnimaisCastradosVacinados', f.outrosAnimaisCastradosVacinados ? "Sim" : "Não");
 
-        // Financeiro
         set('renda', f.renda);
         set('condicoesManterAnimal', f.condicoesManterAnimal ? "Sim" : "Não");
         set('concordaTaxaColaborativa', f.concordaTaxaColaborativa ? "Sim" : "Não");
         set('concordaCastracaoVacinacao', f.concordaCastracaoVacinacao ? "Sim" : "Não");
 
-        // Resposta e status
         set('formResposta', f.resposta);
         document.getElementById('formStatus').value = f.status || 1;
 
-        // Fotos
         if (Array.isArray(f.fotos) && f.fotos.length > 0) {
             f.fotos.forEach(base64 => {
                 const img = document.createElement("img");
@@ -104,12 +95,10 @@ async function openFormModal(formId) {
     }
 }
 
-// ===== FECHAR MODAL =====
 function closeFormModal() {
     ModalManager.hide('formModal');
 }
 
-// ===== SALVAR RESPOSTA =====
 document.getElementById('formularioForm').addEventListener('submit', async e => {
     e.preventDefault();
     Utils.showLoading(true);
@@ -137,7 +126,6 @@ document.getElementById('formularioForm').addEventListener('submit', async e => 
     }
 });
 
-// ===== STATUS =====
 function getStatusTexto(status) {
     switch (status) {
         case 1: return "Pendente";
@@ -147,7 +135,6 @@ function getStatusTexto(status) {
     }
 }
 
-// ===== EDITAR =====
 function editForm(id) {
     openFormModal(id);
 }

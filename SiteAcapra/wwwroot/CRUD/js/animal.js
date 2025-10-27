@@ -1,6 +1,5 @@
 const API_URL = "https://localhost:7162/api";
 
-// ========== FUNÇÃO UTILITÁRIA ==========
 async function fetchJSON(url, options = {}) {
     const res = await fetch(url, options);
     if (res.status === 204) return null; 
@@ -8,7 +7,6 @@ async function fetchJSON(url, options = {}) {
     return res.json();
 }
 
-// ========== CONVERTER ARQUIVO PARA BASE64 ==========
 function fileToBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -18,7 +16,6 @@ function fileToBase64(file) {
     });
 }
 
-// ========== LISTAR ANIMAIS ==========
 async function loadAnimals() {
     try {
         const animals = await fetchJSON(`${API_URL}/Animal`);
@@ -31,7 +28,7 @@ async function loadAnimals() {
             dataNascimento: a.dataNascimento,
             tutor: a.tutor?.nome || "-",
             castrado: a.castrado,
-            adotado: a.adotado === 1 || a.adotado === true, // <-- correção
+            adotado: a.adotado === 1 || a.adotado === true,
             fotos: a.fotos || []
         }));
 
@@ -49,7 +46,7 @@ async function loadAnimals() {
         const actions = [
             { label: 'Editar', type: 'warning', onclick: 'editAnimal' },
             { label: 'Excluir', type: 'danger', onclick: 'deleteAnimal' },
-            { label: 'Adotar', type: 'success', onclick: 'markAsAdopted' } // novo botão
+            { label: 'Adotar', type: 'success', onclick: 'markAsAdopted' }
         ];
 
         TableManager.renderTable('animal-list-container', mapped, columns, actions);
@@ -58,7 +55,6 @@ async function loadAnimals() {
     }
 }
 
-// ========== ABRIR MODAL (ADICIONAR / EDITAR) ==========
 async function openAnimalModal(animalId = null) {
     const modalTitle = document.getElementById('animalModalTitle');
     const animalForm = document.getElementById('animalForm');
@@ -67,7 +63,6 @@ async function openAnimalModal(animalId = null) {
     document.getElementById('fotosContainer').innerHTML = "";
     document.getElementById('racaAnimal').innerHTML = '<option value="">Selecione a Raça</option>';
 
-    // Carregar selects essenciais
     await loadEspeciesForAnimalForm();
     await loadTutoresForAnimalForm();
 
@@ -85,7 +80,6 @@ async function openAnimalModal(animalId = null) {
             document.getElementById('necessidadesEspeciaisAnimal').value = animal.necessidadesEspeciais || "";
             document.getElementById('descricaoAnimal').value = animal.descricao || "";
 
-            // Setar espécie e raça
             if (animal.especie?.especieId) {
                 document.getElementById('especieAnimal').value = animal.especie.especieId;
                 await loadRacasForAnimalForm(animal.especie.especieId);
@@ -94,15 +88,12 @@ async function openAnimalModal(animalId = null) {
                 }
             }
 
-            // Setar tutor
             if (animal.tutor?.tutorId) {
                 document.getElementById('tutorAnimal').value = animal.tutor.tutorId;
             }
 
-            // Vacinas selecionadas como checkboxes
             await loadVacinasForAnimalForm(animal.animalVacinas || []);
 
-            // Fotos existentes
             const fotosContainer = document.getElementById('fotosContainer');
             if (animal.fotos?.length > 0) {
                 animal.fotos.forEach(f => {
@@ -127,12 +118,10 @@ async function openAnimalModal(animalId = null) {
     ModalManager.show('animalModal');
 }
 
-// ========== FECHAR MODAL ==========
 function closeAnimalModal() {
     ModalManager.hide('animalModal');
 }
 
-// ========== SALVAR ANIMAL ==========
 document.getElementById('animalForm').addEventListener('submit', async function(event) {
     event.preventDefault();
 
@@ -158,7 +147,7 @@ document.getElementById('animalForm').addEventListener('submit', async function(
         formData.fotos.push({ fotoHash: base64 });
     }
 
-    // Pegar vacinas selecionadas como checkboxes
+
     formData.animalVacinas = Array.from(document.querySelectorAll('#vacinasContainer input[type="checkbox"]:checked'))
         .map(cb => ({
             vacinaId: parseInt(cb.value),
@@ -184,12 +173,11 @@ document.getElementById('animalForm').addEventListener('submit', async function(
     }
 });
 
-// ========== EDITAR ==========
+
 function editAnimal(id) {
     openAnimalModal(id);
 }
 
-// ========== EXCLUIR ==========
 async function deleteAnimal(id) {
     if (!confirm("Tem certeza que deseja excluir este animal?")) return;
 
@@ -202,7 +190,6 @@ async function deleteAnimal(id) {
     }
 }
 
-// ========== CARREGAR SELECTS ==========
 async function loadEspeciesForAnimalForm() {
     const select = document.getElementById('especieAnimal');
     select.innerHTML = '<option value="">Selecione a Espécie</option>';
@@ -263,7 +250,6 @@ async function loadTutoresForAnimalForm() {
     }
 }
 
-// ========== MARCAR ANIMAL COMO ADOTADO ==========
 async function markAsAdopted(id) {
     if (!confirm("Deseja marcar este animal como adotado?")) return;
 
@@ -276,17 +262,15 @@ async function markAsAdopted(id) {
         if (!res.ok) throw new Error(`Erro: ${res.status} ${res.statusText}`);
         const data = await res.json();
         Utils.showAlert(data.message || "Status de adoção atualizado com sucesso!", "success");
-        loadAnimals(); // Recarregar lista
+        loadAnimals();
     } catch (error) {
         Utils.showAlert("Erro ao atualizar status de adoção: " + error.message, "error");
     }
 }
 
-// ========== CARREGAR VACINAS COMO CHECKBOXES ==========
 async function loadVacinasForAnimalForm(selectedVacinas = []) {
     const container = document.getElementById('vacinasContainer');
-    container.innerHTML = ''; // limpa checkboxes antigos
-
+    container.innerHTML = '';
     try {
         const vacinas = await fetchJSON(`${API_URL}/Vacina`);
         vacinas.forEach(v => {

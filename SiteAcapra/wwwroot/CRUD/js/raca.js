@@ -1,13 +1,11 @@
 const API_URL = "https://localhost:7162/api";
 
-// ========== FUNÇÃO UTILITÁRIA ==========
 async function fetchJSON(url, options = {}) {
     const res = await fetch(url, options);
     if (!res.ok) throw new Error(`Erro: ${res.status} ${res.statusText}`);
     return res.json();
 }
 
-// ========== LISTAR RAÇAS ==========
 async function loadRacas() {
     try {
         Utils.showLoading(true);
@@ -37,7 +35,6 @@ async function loadRacas() {
     }
 }
 
-// ========== ABRIR MODAL ==========
 async function openRacaModal(racaId = null) {
     const modalTitle = document.getElementById('racaModalTitle');
     const racaForm = document.getElementById('racaForm');
@@ -59,12 +56,10 @@ async function openRacaModal(racaId = null) {
     ModalManager.show('racaModal');
 }
 
-// ========== FECHAR MODAL ==========
 function closeRacaModal() {
     ModalManager.hide('racaModal');
 }
 
-// ========== SALVAR RAÇA ==========
 document.getElementById('racaForm').addEventListener('submit', async function(event) {
     event.preventDefault();
     Utils.showLoading(true);
@@ -95,7 +90,6 @@ document.getElementById('racaForm').addEventListener('submit', async function(ev
     }
 });
 
-// ========== EXCLUIR ==========
 async function deleteRaca(id) {
     if (!confirm('Tem certeza que deseja excluir esta raça?')) return;
 
@@ -108,7 +102,6 @@ async function deleteRaca(id) {
     }
 }
 
-// ========== EDITAR ==========
 function editRaca(id) {
     openRacaModal(id);
 }

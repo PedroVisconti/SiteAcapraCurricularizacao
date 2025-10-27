@@ -1,13 +1,11 @@
-const API_URL = "https://localhost:7162/api"; // Ajuste conforme seu backend
+const API_URL = "https://localhost:7162/api";
 
-// ========== FUNÇÃO UTILITÁRIA ==========
 async function fetchJSON(url, options = {}) {
     const res = await fetch(url, options);
     if (!res.ok) throw new Error(`Erro: ${res.status} ${res.statusText}`);
     return res.json();
 }
 
-// ========== LISTAR VACINAS ==========
 async function loadVacinas() {
     try {
         const vacinas = await fetchJSON(`${API_URL}/Vacina`);
@@ -32,7 +30,6 @@ async function loadVacinas() {
     }
 }
 
-// ========== ABRIR MODAL (ADICIONAR / EDITAR) ==========
 async function openVacinaModal(id = null) {
     const modalTitle = document.getElementById('vacinaModalTitle');
     const form = document.getElementById('vacinaForm');
@@ -55,12 +52,10 @@ async function openVacinaModal(id = null) {
     ModalManager.show('vacinaModal');
 }
 
-// ========== FECHAR MODAL ==========
 function closeVacinaModal() {
     ModalManager.hide('vacinaModal');
 }
 
-// ========== SALVAR (POST / PUT) ==========
 document.getElementById('vacinaForm').addEventListener('submit', async function (event) {
     event.preventDefault();
 
@@ -87,12 +82,10 @@ document.getElementById('vacinaForm').addEventListener('submit', async function 
     }
 });
 
-// ========== EDITAR ==========
 function editVacina(id) {
     openVacinaModal(id);
 }
 
-// ========== EXCLUIR ==========
 async function deleteVacina(id) {
     if (!confirm("Tem certeza que deseja excluir esta vacina?")) return;
 
