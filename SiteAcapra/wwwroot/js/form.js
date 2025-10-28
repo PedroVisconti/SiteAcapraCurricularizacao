@@ -47,6 +47,7 @@
     }
 
     const form = document.querySelector('.form-cadastro');
+    
     form.addEventListener('submit', async function (e) {
         e.preventDefault();
 

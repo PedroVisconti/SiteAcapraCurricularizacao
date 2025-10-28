@@ -3,7 +3,6 @@ const urlBase = "https://localhost:7162/api";
 async function fetchAnimais() {
   try {
     const response = await fetch(`${urlBase}/Animal/adocao`);
-    
     if (!response.ok) {
       console.error("Erro ao buscar dados da API:", response.status);
       return []; 
@@ -103,6 +102,19 @@ function renderCatalogo(animais) {
     </div>
     <button class="adopt-button">Adotar</button>
     `;
+
+    const adoptButton = card.querySelector(".adopt-button");
+
+    // 2. Adiciona o ouvinte de clique
+    adoptButton.addEventListener("click", () => {
+      // 3. Salva o objeto 'animal' específico deste card no localStorage
+      // Usamos JSON.stringify para converter o objeto em texto
+      localStorage.setItem("animalParaAdocao", JSON.stringify(animal));
+      
+      // 4. Redireciona o usuário para a página do formulário
+      // !! SUBSTITUA "formulario.html" PELO CAMINHO CORRETO DA SUA PÁGINA !!
+      window.location.href = "formulario.html"; 
+    });
 
     lista.appendChild(card);
   });
