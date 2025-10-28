@@ -1,13 +1,11 @@
 const API_URL = "https://localhost:7162/api";
 
-// ========== FUNÇÃO UTILITÁRIA ==========
 async function fetchJSON(url, options = {}) {
     const res = await fetch(url, options);
     if (!res.ok) throw new Error(`Erro: ${res.status} ${res.statusText}`);
     return res.json();
 }
 
-// ========== LISTAR ESPÉCIES ==========
 async function loadEspecies() {
     try {
         Utils.showLoading(true);
@@ -37,7 +35,6 @@ async function loadEspecies() {
     }
 }
 
-// ========== ABRIR MODAL ==========
 async function openEspecieModal(especieId = null) {
     const modalTitle = document.getElementById('especieModalTitle');
     const especieForm = document.getElementById('especieForm');
@@ -59,12 +56,10 @@ async function openEspecieModal(especieId = null) {
     ModalManager.show('especieModal');
 }
 
-// ========== FECHAR MODAL ==========
 function closeEspecieModal() {
     ModalManager.hide('especieModal');
 }
 
-// ========== SALVAR ESPÉCIE ==========
 document.getElementById('especieForm').addEventListener('submit', async function(event) {
     event.preventDefault();
     Utils.showLoading(true);
@@ -95,7 +90,6 @@ document.getElementById('especieForm').addEventListener('submit', async function
     }
 });
 
-// ========== EXCLUIR ==========
 async function deleteEspecie(id) {
     if (!confirm('Tem certeza que deseja excluir esta espécie?')) return;
 
@@ -108,7 +102,6 @@ async function deleteEspecie(id) {
     }
 }
 
-// ========== EDITAR ==========
 function editEspecie(id) {
     openEspecieModal(id);
 }

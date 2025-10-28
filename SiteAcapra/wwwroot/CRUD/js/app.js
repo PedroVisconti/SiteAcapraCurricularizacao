@@ -2,17 +2,16 @@ const usuario = JSON.parse(localStorage.getItem("usuario"));
 const token = localStorage.getItem("token");
 
 if (!usuario) {
-    // Não está logado, redireciona para login
+
     window.location.href = "/login.html";
 }
-// Simulação de dados (localStorage como "banco de dados")
 class DataManager {
     constructor() {
         this.initializeData();
     }
 
     initializeData() {
-        // Inicializar dados se não existirem
+
         if (!localStorage.getItem('especies')) {
             localStorage.setItem('especies', JSON.stringify([
                 { id: 1, nome: 'Cão', descricao: 'Canis lupus familiaris' },
@@ -113,7 +112,6 @@ class DataManager {
         }
     }
 
-    // Métodos genéricos para CRUD
     getAll(entity) {
         return JSON.parse(localStorage.getItem(entity) || '[]');
     }
@@ -150,7 +148,6 @@ class DataManager {
         return true;
     }
 
-    // Métodos específicos
     getRacasByEspecie(especieId) {
         const racas = this.getAll('racas');
         return racas.filter(raca => raca.especieId == especieId);
@@ -178,10 +175,8 @@ class DataManager {
     }
 }
 
-// Instância global do gerenciador de dados
 const dataManager = new DataManager();
 
-// Utilitários
 class Utils {
     static formatDate(dateString) {
         if (!dateString) return 'N/A';
@@ -258,7 +253,6 @@ class Utils {
     }
 }
 
-// Modal Manager
 class ModalManager {
     static show(modalId) {
         const modal = document.getElementById(modalId);
@@ -285,7 +279,6 @@ class ModalManager {
     }
 }
 
-// Form Manager
 class FormManager {
     static getFormData(formElement) {
         const formData = new FormData(formElement);
@@ -336,7 +329,6 @@ class FormManager {
     }
 }
 
-// Table Manager
 class TableManager {
     static renderTable(containerId, data, columns, actions = []) {
         const container = document.getElementById(containerId);

@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/login.css">
     <title>Acapra - Login</title>
 </head>
-<body>
 
+<body>
     <div class="falling-container">
         <span class="falling" style="left: 5%; animation-duration: 3s;">🦴</span>
         <span class="falling" style="left: 15%; animation-duration: 4s;">🐶</span>
@@ -28,7 +29,6 @@
         <span class="falling" style="left: 75%; animation-duration: 3.8s;">🐶</span>
         <span class="falling" style="left: 85%; animation-duration: 2.6s;">🐕</span>
     </div>
-
     <div class="login-container">
         <div class="content">
             <h2>Bem-vindo a Acapra</h2>
@@ -68,7 +68,6 @@
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            // Captura os valores do formulário
             const email = document.getElementById("email").value.trim();
             const senha = document.getElementById("senha").value;
 
@@ -95,15 +94,13 @@
 
                 const data = await res.json();
 
-                // Salva dados no localStorage
                 localStorage.setItem("usuario", JSON.stringify(data.usuario));
                 localStorage.setItem("token", data.token);
 
-                // Redireciona baseado no tipoUsuarioId
                 if (data.usuario.tipoUsuarioId === 1) {
-                    window.location.href = "/CRUD/pages/index.html"; // ADM
+                    window.location.href = "/CRUD/pages/index.html";
                 } else if (data.usuario.tipoUsuarioId === 2) {
-                    window.location.href = "/catalogo.html"; // Usuário normal
+                    window.location.href = "/catalogo.html";
                 } else {
                     alert("Tipo de usuário desconhecido!");
                 }
@@ -114,4 +111,5 @@
         });
     </script>
 </body>
+
 </html>

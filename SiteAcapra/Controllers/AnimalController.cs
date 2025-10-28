@@ -81,6 +81,22 @@ namespace SiteAcapra.Controllers
             return Ok(animalResponse);
         }
 
+
+        [HttpGet("paginaInicial")]
+        public async Task<ActionResult<List<AnimalResponse>>> ListarTresAnimaisPaginaInicial()
+        {
+            var animais = await _context.Animais
+                .Include(a => a.Raca)
+                .Include(a => a.Especie)
+                .Include(a => a.Fotos)
+                .Where(e => e.Excluido == false && e.Adotado == false)
+                .OrderByDescending(a => a.DataCadastro)
+                .Take(3)
+                .ToListAsync();
+            var animalReponse = _mapper.Map<List<AnimalResponse>>(animais);
+            return Ok(animalReponse);
+        }
+
         [HttpPost]
         public async Task<ActionResult> CadastrarAnimal([FromBody]AnimalRequest animalRequest)
         {
