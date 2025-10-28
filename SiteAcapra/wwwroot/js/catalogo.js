@@ -1,60 +1,103 @@
-const animais = [
-  {
-    nome: "Thor",
-    especie: "Cachorro",
-    peso: "18 kg",
-    raca: "Vira-lata",
-    idade: "2 anos",
-    descricao: "Brincalhão, carinhoso e adora correr no parque.",
-    imagem: "https://www.petz.com.br/blog/wp-content/uploads/2021/09/dia-mundial-dos-animais-topo.jpg"
-  },
-  {
-    nome: "Mia",
-    especie: "Gato",
-    peso: "4 kg",
-    raca: "Siamês",
-    idade: "1 ano e meio",
-    descricao: "Muito carinhosa, gosta de colo e é bem tranquila.",
-    imagem: "https://www.petz.com.br/blog/wp-content/uploads/2021/09/dia-mundial-dos-animais-topo.jpg"
-  },
-  {
-    nome: "Luna",
-    especie: "Cachorra",
-    peso: "12 kg",
-    raca: "Labrador",
-    idade: "3 anos",
-    descricao: "Extremamente dócil e ótima companheira para famílias.",
-    imagem: "https://www.petz.com.br/blog/wp-content/uploads/2021/09/dia-mundial-dos-animais-topo.jpg"
-  },
-  {
-    nome: "Nino",
-    especie: "Gato",
-    peso: "5 kg",
-    raca: "Persa",
-    idade: "2 anos",
-    descricao: "Gosta de dormir em lugares altos e é muito curioso.",
-    imagem: "https://www.petz.com.br/blog/wp-content/uploads/2021/09/dia-mundial-dos-animais-topo.jpg"
-  }
-];
+const urlBase = "https://localhost:7162/api";
 
-function renderCatalogo() {
+async function fetchAnimais() {
+  try {
+    const response = await fetch(`${urlBase}/Animal/adocao`);
+    
+    if (!response.ok) {
+      console.error("Erro ao buscar dados da API:", response.status);
+      return []; 
+    }
+    
+    const data = await response.json();
+    return data; 
+    
+  } catch (error) {
+    console.error("Erro ao buscar os animais para adoção:", error);
+    return []; 
+  }
+}
+
+/**
+ * Calcula a idade (em anos e meses) a partir de uma data de nascimento.
+ * @param {string} dataNascimentoString - A data de nascimento em formato ISO (ex: "2025-10-17").
+ * @returns {string} - A idade formatada (ex: "2 anos", "5 meses").
+ */
+function calcularIdade(dataNascimentoString) {
+  if (!dataNascimentoString) {
+    return "Não informada";
+  }
+
+  try {
+    const hoje = new Date();
+    const nasc = new Date(dataNascimentoString);
+    
+    let idadeAnos = hoje.getFullYear() - nasc.getFullYear();
+    let idadeMeses = hoje.getMonth() - nasc.getMonth();
+    
+    // Ajusta meses e anos se o dia atual for anterior ao dia de nascimento
+    if (hoje.getDate() < nasc.getDate()) {
+      idadeMeses--;
+    }
+
+    // Ajusta anos se o mês atual for anterior ao mês de nascimento
+    if (idadeMeses < 0) {
+      idadeAnos--;
+      idadeMeses += 12; // Adiciona 12 meses para corrigir
+    }
+
+    // Formata a string de saída
+    if (idadeAnos > 0) {
+      return `${idadeAnos} ano${idadeAnos > 1 ? 's' : ''}`;
+    } else if (idadeMeses > 0) {
+      return `${idadeMeses} mes${idadeMeses !== 1 ? 'es' : ''}`;
+    } else {
+      // Para animais com menos de 1 mês
+      return "Menos de 1 mês";
+    }
+
+  } catch (error) {
+    console.error("Erro ao calcular idade:", error);
+    return "Inválida";
+  }
+}
+
+
+/**
+ * Renderiza a lista de animais na página.
+ * @param {Array} animais - O array de objetos de animais vindo da API.
+ */
+function renderCatalogo(animais) {
   const lista = document.getElementById("animalList");
+  lista.innerHTML = ""; 
+
+  if (!animais || animais.length === 0) {
+    lista.innerHTML = "<p>Nenhum animal disponível para adoção no momento.</p>";
+    return;
+  }
 
   animais.forEach(animal => {
     const card = document.createElement("div");
     card.classList.add("animal-card");
 
+
+    const imagemUrl = (animal.fotos && animal.fotos.length > 0)
+                      ? animal.fotos[0].fotoHash 
+                      : 'https://via.placeholder.com/300x200.png?text=Sem+Foto'; // URL de fallback
+
+    const idadeTexto = calcularIdade(animal.dataNascimento);
+
     card.innerHTML = `
-    <img src="${animal.imagem}" alt="${animal.nome}" class="animal-image">
+    <img src="${imagemUrl}" alt="${animal.nome}" class="animal-image">
     <div class="animal-card-content">
         <div class="animal-info">
         <h2 class="animal-name">${animal.nome}</h2>
-        <p class="animal-especie">${animal.especie}</p>
+        <p class="animal-especie">${animal.especie.nome}</p>
         </div>
         <div class="animal-details">
-        <b><p>Peso: ${animal.peso}</p></b>
-        <b><p>Raça: ${animal.raca}</p></b>
-        <b><p>Idade: ${animal.idade}</p></b>
+        <b><p>Peso: ${animal.peso} kg</p></b>
+        <b><p>Raça: ${animal.raca.nome}</p></b>
+        <b><p>Idade: ${idadeTexto}</p></b>
         </div>
         <p class="animal-description">${animal.descricao}</p>
     </div>
@@ -65,4 +108,8 @@ function renderCatalogo() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", renderCatalogo);
+// Event listener 'DOMContentLoaded' permanece o mesmo
+document.addEventListener("DOMContentLoaded", async () => {
+  const animaisDaApi = await fetchAnimais();
+  renderCatalogo(animaisDaApi);
+});
