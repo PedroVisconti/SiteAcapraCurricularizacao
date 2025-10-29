@@ -1,18 +1,19 @@
 /* Reset básico */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
-
 /* Navbar */
+
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 200px;
-    background-color: white;  
+    background-color: white;
     gap: 2rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     position: sticky;
@@ -20,31 +21,31 @@
     z-index: 10;
 }
 
-.navbar .logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 2rem;
-    font-weight: bold;
-    color: #4f46e5;
-}
+    .navbar .logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #4f46e5;
+    }
 
-.navbar .nav-links {
-    display: flex;
-    gap: 85px;
-    align-items: center;
-}
+    .navbar .nav-links {
+        display: flex;
+        gap: 85px;
+        align-items: center;
+    }
 
-.navbar .nav-links a {
-    color: #3E3D41;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s;
-}
+        .navbar .nav-links a {
+            color: #3E3D41;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
 
-.navbar .nav-links a:hover {
-    color: #4f46e5;
-}
+            .navbar .nav-links a:hover {
+                color: #4f46e5;
+            }
 
 .acessar-button {
     background-color: #4f46e5;
@@ -58,14 +59,13 @@
     transition: background-color 0.3s;
 }
 
-.acessar-button:hover {
-    background-color: #3a34a3;
-}
-
+    .acessar-button:hover {
+        background-color: #3a34a3;
+    }
 /* Hero Section */
+
 .hero {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
-        url('https://images.unsplash.com/photo-1601758174649-4a81a2f414db?auto=format&fit=crop&w=1470&q=80');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1601758174649-4a81a2f414db?auto=format&fit=crop&w=1470&q=80');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -78,19 +78,19 @@
     padding: 0 1rem;
 }
 
-.hero .title-hero {
-    font-size: 4rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
-}
+    .hero .title-hero {
+        font-size: 4rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+    }
 
-.hero .text-hero {
-    font-size: 2rem;
-    text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
-}
-
+    .hero .text-hero {
+        font-size: 2rem;
+        text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+    }
 /* Cards de Animais */
+
 .animal-list {
     display: flex;
     flex-wrap: wrap;
@@ -103,7 +103,7 @@
 .animal-card {
     border-radius: 10px;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     justify-content: space-between;
     border: 1px solid #ddd;
     max-width: 350px;
@@ -114,10 +114,10 @@
     overflow: hidden;
 }
 
-.animal-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 20px rgba(0,0,0,0.2);
-}
+    .animal-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+    }
 
 .animal-image {
     width: 100%;
@@ -169,6 +169,23 @@
     flex-grow: 1;
 }
 
+.catalog-button {
+    padding: 8px;
+    margin: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #5f57f3;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+    .catalog-button:hover {
+        background-color: #4b44d1;
+        transform: scale(1.05);
+    }
+
 .adopt-button {
     padding: 10px;
     margin: 10px 15px;
@@ -181,12 +198,12 @@
     transition: background-color 0.3s, transform 0.2s;
 }
 
-.adopt-button:hover {
-    background-color: #4b44d1;
-    transform: scale(1.05);
-}
-
+    .adopt-button:hover {
+        background-color: #4b44d1;
+        transform: scale(1.05);
+    }
 /* Sobre */
+
 .about {
     display: flex;
     flex-direction: column;
@@ -200,35 +217,35 @@
 }
 
 .about-details {
-    display: flex;      
-    align-items: center;    
+    display: flex;
+    align-items: center;
     flex-direction: row;
     gap: 5rem;
     max-width: 1250px;
     flex-wrap: wrap;
 }
 
-.about-details img {
-    width: 50%;
-    border-radius: 10px;
-}
+    .about-details img {
+        width: 50%;
+        border-radius: 10px;
+    }
 
-.about-details div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    text-align: left;
-}
+    .about-details div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: left;
+    }
 
 .about-text-content {
     margin-bottom: 15px;
 }
 
-.about-text-content h2 {
-    margin-bottom: 15px;
-}
-
+    .about-text-content h2 {
+        margin-bottom: 15px;
+    }
 /* Contato */
+
 .contact {
     display: flex;
     flex-direction: column;
@@ -239,20 +256,20 @@
     padding: 2rem;
 }
 
-.contact .title-contact {
-    font-size: 2.5rem;
-}
+    .contact .title-contact {
+        font-size: 2.5rem;
+    }
 
-.contact p {
-    font-size: 1.3rem;
-    color: #3E3D41;
-}
+    .contact p {
+        font-size: 1.3rem;
+        color: #3E3D41;
+    }
 
 .contact-info {
     margin-top: 10px;
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;     
+    gap: 20px;
     justify-content: center;
 }
 
@@ -266,9 +283,9 @@
 .icon-contact {
     font-family: 'Material Icons';
     font-size: 24px;
-    color: #332add; 
-    border-radius: 15px;   
-    padding: 2px;           
+    color: #332add;
+    border-radius: 15px;
+    padding: 2px;
 }
 
 .fa-brands {
@@ -297,8 +314,8 @@ a {
     text-decoration: none;
     color: inherit;
 }
-
 /* Footer */
+
 .footer {
     background-color: #1f2937;
     color: rgb(199, 199, 199);
@@ -313,8 +330,8 @@ a {
     padding: 20px;
     gap: 10px;
 }
-
 /* Responsividade */
+
 @media (max-width: 1024px) {
     .navbar {
         padding: 15px 80px;
@@ -344,9 +361,9 @@ a {
         gap: 2rem;
     }
 
-    .about-details img {
-        width: 100%;
-    }
+        .about-details img {
+            width: 100%;
+        }
 }
 
 @media (max-width: 480px) {
@@ -354,11 +371,11 @@ a {
         height: 400px;
     }
 
-    .hero .title-hero {
-        font-size: 2rem;
-    }
+        .hero .title-hero {
+            font-size: 2rem;
+        }
 
-    .hero .text-hero {
-        font-size: 1rem;
-    }
+        .hero .text-hero {
+            font-size: 1rem;
+        }
 }
