@@ -50,6 +50,26 @@
     
     form.addEventListener('submit', async function (e) {
         e.preventDefault();
+        const usuarioDataString = localStorage.getItem('usuario');
+        const animalDataString = localStorage.getItem('animalParaAdocao');
+
+        let animalData;
+    try {
+        animalData = JSON.parse(animalDataString);
+    } catch (e) {
+        console.error("Erro ao fazer parse dos dados do animal:", e);
+        alert("Ocorreu um erro ao carregar os dados do animal.");
+        return; // Sai se o JSON for inválido
+    }
+
+    let usuarioData;
+    try {
+        usuarioData = JSON.parse(usuarioDataString);
+    } catch (e) {
+        console.error("Erro ao fazer parse dos dados do usuario:", e);
+        alert("Ocorreu um erro ao carregar os dados do usuario.");
+        return; 
+    }
 
         const botaoEnviar = document.getElementById('btnSalvar');
         try {
@@ -70,8 +90,8 @@
                 fileToBase64WithQuality(fotoLocal, 800, 0.7)
             ]);
 
-            const idDoAnimal = "14";
-            const idDoUsuario = "11111111-1111-1111-1111-111111111111";
+            const idDoAnimal = animalData.animalId;
+            const idDoUsuario = usuarioData.usuarioId;
 
             if (!idDoAnimal || !idDoUsuario) {
                 alert("Erro: AnimalId ou UsuarioId não encontrados. Não é possível enviar o formulário.");
