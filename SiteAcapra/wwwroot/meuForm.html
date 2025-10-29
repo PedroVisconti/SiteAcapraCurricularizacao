@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Formulários</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f5f6fb;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            margin-top: 50px;
+            max-width: 1000px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        .table {
+            margin-top: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background-color: #f8f9fb;
+            color: #333;
+            font-weight: 600;
+            border-bottom: 2px solid #eee !important;
+        }
+
+        td {
+            vertical-align: middle;
+        }
+
+        .btn-ver {
+            background-color: #5a42f5;
+            color: white;
+            font-weight: 500;
+            border-radius: 8px;
+            padding: 6px 16px;
+        }
+
+            .btn-ver:hover {
+                background-color: #3e2de0;
+                color: #fff;
+            }
+
+        h2 {
+            color: #3e2de0;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        /* Modal */
+        #formModal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            max-width: 950px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            border-radius: 12px;
+            background-color: #fff;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 0.8rem;
+        }
+
+        .form-input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .form-section {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 1rem;
+        }
+
+            .form-section h4 {
+                margin-bottom: 0.8rem;
+                color: #444;
+            }
+
+        .foto-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+            .foto-grid img {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+                border-radius: 10px;
+                border: 2px solid #ddd;
+                transition: transform 0.3s;
+            }
+
+                .foto-grid img:hover {
+                    transform: scale(1.05);
+                }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2>Lista de Formulários</h2>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Telefone</th>
+                            <th>Data</th>
+                            <th>Status</th>
+                            <th>Resposta</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaFormularios">
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">Carregando formulários...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="formModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Responder Formulário</h3>
+                <span class="close" onclick="closeFormModal()">&times;</span>
+            </div>
+            <form id="formularioForm">
+                <input type="hidden" id="formId">
+
+                <div class="form-section">
+                    <h4>🧍 Dados Pessoais</h4>
+                    <div class="form-group"><label>Nome Completo:</label><input type="text" id="nomeCompleto" class="form-input" readonly></div>
+                    <div class="form-group"><label>E-mail:</label><input type="text" id="email" class="form-input" readonly></div>
+                    <div class="form-group"><label>Telefone:</label><input type="text" id="telefone" class="form-input" readonly></div>
+                    <div class="form-group"><label>Data de Nascimento:</label><input type="text" id="dataNascimento" class="form-input" readonly></div>
+                    <div class="form-group"><label>Endereço:</label><input type="text" id="endereco" class="form-input" readonly></div>
+                </div>
+
+                <div class="form-section">
+                    <h4>🏠 Informações da Residência</h4>
+                    <div class="form-group"><label>Tipo:</label><input type="text" id="residenciaTipo" class="form-input" readonly></div>
+                    <div class="form-group"><label>Propriedade:</label><input type="text" id="residenciaPropriedade" class="form-input" readonly></div>
+                    <div class="form-group"><label>Tem telas?</label><input type="text" id="residenciaTemTelas" class="form-input" readonly></div>
+                    <div class="form-group"><label>Acesso à rua?</label><input type="text" id="acessoARua" class="form-input" readonly></div>
+                    <div class="form-group"><label>Concorda com residência?</label><input type="text" id="concordanciaResidencia" class="form-input" readonly></div>
+                </div>
+
+                <div class="form-section">
+                    <h4>🐾 Outros Animais</h4>
+                    <div class="form-group"><label>Tem outros animais?</label><input type="text" id="temOutrosAnimais" class="form-input" readonly></div>
+                    <div class="form-group"><label>Quais?</label><input type="text" id="quaisOutrosAnimais" class="form-input" readonly></div>
+                    <div class="form-group"><label>Castrados/Vacinados?</label><input type="text" id="outrosAnimaisCastradosVacinados" class="form-input" readonly></div>
+                </div>
+
+                <div class="form-section">
+                    <h4>💰 Situação Financeira</h4>
+                    <div class="form-group"><label>Renda:</label><input type="text" id="renda" class="form-input" readonly></div>
+                    <div class="form-group"><label>Condições de manter animal?</label><input type="text" id="condicoesManterAnimal" class="form-input" readonly></div>
+                    <div class="form-group"><label>Concorda com taxa colaborativa?</label><input type="text" id="concordaTaxaColaborativa" class="form-input" readonly></div>
+                    <div class="form-group"><label>Concorda com castração/vacinação?</label><input type="text" id="concordaCastracaoVacinacao" class="form-input" readonly></div>
+                </div>
+
+                <div class="form-section">
+                    <h4>📸 Fotos</h4>
+                    <div id="formFotosContainer" class="foto-grid"></div>
+                </div>
+
+                <div class="form-section">
+                    <h4>📝 Resposta</h4>
+                    <div class="form-group">
+                        <label>Resposta:</label>
+                        <textarea id="formResposta" name="resposta" class="form-input" rows="4" placeholder="Digite sua resposta..." readonly></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Status:</label>
+                        <select id="formStatus" name="status" class="form-input" disabled required>
+                            <option value="1">Pendente</option>
+                            <option value="2">Aprovado</option>
+                            <option value="3">Rejeitado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="btn-group flex justify-end mt-3">
+                    <button type="button" class="btn btn-secondary" onclick="closeFormModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/meuForm.js"></script>
+</body>
+</html>
