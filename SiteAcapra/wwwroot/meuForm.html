@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,9 @@
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/catalogo.css">
 
     <style>
         body {
@@ -22,7 +26,7 @@
         .card {
             border: none;
             border-radius: 16px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
         }
 
@@ -51,10 +55,10 @@
             padding: 6px 16px;
         }
 
-            .btn-ver:hover {
-                background-color: #3e2de0;
-                color: #fff;
-            }
+        .btn-ver:hover {
+            background-color: #3e2de0;
+            color: #fff;
+        }
 
         h2 {
             color: #3e2de0;
@@ -73,7 +77,7 @@
             height: 100%;
             justify-content: center;
             align-items: center;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.5);
         }
 
         .modal-content {
@@ -118,10 +122,10 @@
             padding-bottom: 1rem;
         }
 
-            .form-section h4 {
-                margin-bottom: 0.8rem;
-                color: #444;
-            }
+        .form-section h4 {
+            margin-bottom: 0.8rem;
+            color: #444;
+        }
 
         .foto-grid {
             display: grid;
@@ -129,21 +133,92 @@
             gap: 1rem;
         }
 
-            .foto-grid img {
-                width: 100%;
-                height: 200px;
-                object-fit: cover;
-                border-radius: 10px;
-                border: 2px solid #ddd;
-                transition: transform 0.3s;
-            }
+        .foto-grid img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            transition: transform 0.3s;
+        }
 
-                .foto-grid img:hover {
-                    transform: scale(1.05);
-                }
+        .foto-grid img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Navbar */
+
+
+        .navbar {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 15px 200px;
+            background-color: white;
+            gap: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 85px;
+            align-items: center;
+        }
+
+        .navbar .nav-links a {
+            color: #3E3D41;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .navbar .nav-links a:hover {
+            color: #4f46e5;
+        }
+
+        .acessar-button {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .acessar-button:hover {
+            background-color: #3a34a3;
+        }
     </style>
 </head>
+
 <body>
+    <header>
+        <nav class="navbar">
+            <a href="./catalogo.html">
+                <div class="logo">
+                    <span class="material-icons" id="icon">pets</span>
+                    <span>Acapra</span>
+                </div>
+            </a>
+            <button type="button" class="catalog-button" onclick="window.location.href='meuForm.html'">Meus
+                Formularios</button>
+        </nav>
+    </header>
     <div class="container">
         <div class="card">
             <h2>Lista de Formulários</h2>
@@ -182,35 +257,52 @@
 
                 <div class="form-section">
                     <h4>🧍 Dados Pessoais</h4>
-                    <div class="form-group"><label>Nome Completo:</label><input type="text" id="nomeCompleto" class="form-input" readonly></div>
-                    <div class="form-group"><label>E-mail:</label><input type="text" id="email" class="form-input" readonly></div>
-                    <div class="form-group"><label>Telefone:</label><input type="text" id="telefone" class="form-input" readonly></div>
-                    <div class="form-group"><label>Data de Nascimento:</label><input type="text" id="dataNascimento" class="form-input" readonly></div>
-                    <div class="form-group"><label>Endereço:</label><input type="text" id="endereco" class="form-input" readonly></div>
+                    <div class="form-group"><label>Nome Completo:</label><input type="text" id="nomeCompleto"
+                            class="form-input" readonly></div>
+                    <div class="form-group"><label>E-mail:</label><input type="text" id="email" class="form-input"
+                            readonly></div>
+                    <div class="form-group"><label>Telefone:</label><input type="text" id="telefone" class="form-input"
+                            readonly></div>
+                    <div class="form-group"><label>Data de Nascimento:</label><input type="text" id="dataNascimento"
+                            class="form-input" readonly></div>
+                    <div class="form-group"><label>Endereço:</label><input type="text" id="endereco" class="form-input"
+                            readonly></div>
                 </div>
 
                 <div class="form-section">
                     <h4>🏠 Informações da Residência</h4>
-                    <div class="form-group"><label>Tipo:</label><input type="text" id="residenciaTipo" class="form-input" readonly></div>
-                    <div class="form-group"><label>Propriedade:</label><input type="text" id="residenciaPropriedade" class="form-input" readonly></div>
-                    <div class="form-group"><label>Tem telas?</label><input type="text" id="residenciaTemTelas" class="form-input" readonly></div>
-                    <div class="form-group"><label>Acesso à rua?</label><input type="text" id="acessoARua" class="form-input" readonly></div>
-                    <div class="form-group"><label>Concorda com residência?</label><input type="text" id="concordanciaResidencia" class="form-input" readonly></div>
+                    <div class="form-group"><label>Tipo:</label><input type="text" id="residenciaTipo"
+                            class="form-input" readonly></div>
+                    <div class="form-group"><label>Propriedade:</label><input type="text" id="residenciaPropriedade"
+                            class="form-input" readonly></div>
+                    <div class="form-group"><label>Tem telas?</label><input type="text" id="residenciaTemTelas"
+                            class="form-input" readonly></div>
+                    <div class="form-group"><label>Acesso à rua?</label><input type="text" id="acessoARua"
+                            class="form-input" readonly></div>
+                    <div class="form-group"><label>Concorda com residência?</label><input type="text"
+                            id="concordanciaResidencia" class="form-input" readonly></div>
                 </div>
 
                 <div class="form-section">
                     <h4>🐾 Outros Animais</h4>
-                    <div class="form-group"><label>Tem outros animais?</label><input type="text" id="temOutrosAnimais" class="form-input" readonly></div>
-                    <div class="form-group"><label>Quais?</label><input type="text" id="quaisOutrosAnimais" class="form-input" readonly></div>
-                    <div class="form-group"><label>Castrados/Vacinados?</label><input type="text" id="outrosAnimaisCastradosVacinados" class="form-input" readonly></div>
+                    <div class="form-group"><label>Tem outros animais?</label><input type="text" id="temOutrosAnimais"
+                            class="form-input" readonly></div>
+                    <div class="form-group"><label>Quais?</label><input type="text" id="quaisOutrosAnimais"
+                            class="form-input" readonly></div>
+                    <div class="form-group"><label>Castrados/Vacinados?</label><input type="text"
+                            id="outrosAnimaisCastradosVacinados" class="form-input" readonly></div>
                 </div>
 
                 <div class="form-section">
                     <h4>💰 Situação Financeira</h4>
-                    <div class="form-group"><label>Renda:</label><input type="text" id="renda" class="form-input" readonly></div>
-                    <div class="form-group"><label>Condições de manter animal?</label><input type="text" id="condicoesManterAnimal" class="form-input" readonly></div>
-                    <div class="form-group"><label>Concorda com taxa colaborativa?</label><input type="text" id="concordaTaxaColaborativa" class="form-input" readonly></div>
-                    <div class="form-group"><label>Concorda com castração/vacinação?</label><input type="text" id="concordaCastracaoVacinacao" class="form-input" readonly></div>
+                    <div class="form-group"><label>Renda:</label><input type="text" id="renda" class="form-input"
+                            readonly></div>
+                    <div class="form-group"><label>Condições de manter animal?</label><input type="text"
+                            id="condicoesManterAnimal" class="form-input" readonly></div>
+                    <div class="form-group"><label>Concorda com taxa colaborativa?</label><input type="text"
+                            id="concordaTaxaColaborativa" class="form-input" readonly></div>
+                    <div class="form-group"><label>Concorda com castração/vacinação?</label><input type="text"
+                            id="concordaCastracaoVacinacao" class="form-input" readonly></div>
                 </div>
 
                 <div class="form-section">
@@ -222,7 +314,8 @@
                     <h4>📝 Resposta</h4>
                     <div class="form-group">
                         <label>Resposta:</label>
-                        <textarea id="formResposta" name="resposta" class="form-input" rows="4" placeholder="Digite sua resposta..." readonly></textarea>
+                        <textarea id="formResposta" name="resposta" class="form-input" rows="4"
+                            placeholder="Digite sua resposta..." readonly></textarea>
                     </div>
                     <div class="form-group">
                         <label>Status:</label>
@@ -243,4 +336,5 @@
 
     <script src="/js/meuForm.js"></script>
 </body>
+
 </html>
