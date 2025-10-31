@@ -9,13 +9,27 @@ body {
     align-items: flex-start;
 }
 
+.back-icon-link {
+    display: inline-block;
+    margin: 20px;
+    text-decoration: none;
+    color: #333;
+    /* Ajuste o tamanho do ícone aqui */
+    font-size: 28px;
+}
+
+.back-icon-link:hover {
+    color: #555;
+    /* Efeito hover simples */
+}
+
 /* CONTAINER PRINCIPAL */
 .form-container {
     display: flex;
     width: 1400px;
     background: white;
     border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -66,30 +80,31 @@ body {
     color: white;
 }
 
-    .tag.cachorro {
-        background-color: #3b82f6;
-    }
+.tag.cachorro {
+    background-color: #3b82f6;
+}
 
-    .tag.macho {
-        background-color: #10b981;
-    }
+.tag.macho {
+    background-color: #10b981;
+}
 
-    .tag.adulto {
-        background-color: #a78bfa;
-    }
+.tag.adulto {
+    background-color: #a78bfa;
+}
 
 .info p {
     margin: 3px 0;
 }
 
-.history, .requirements {
+.history,
+.requirements {
     text-align: left;
     margin-top: 15px;
 }
 
-    .requirements ul {
-        padding-left: 20px;
-    }
+.requirements ul {
+    padding-left: 20px;
+}
 
 /* LADO DIREITO (FORMULÁRIO) */
 .form-section {
@@ -100,16 +115,16 @@ body {
     justify-content: center;
 }
 
-    .form-section h2 {
-        margin-bottom: 5px;
-        color: #4b3a75;
-        text-align: center;
-    }
+.form-section h2 {
+    margin-bottom: 5px;
+    color: #4b3a75;
+    text-align: center;
+}
 
-    .form-section p {
-        margin-bottom: 20px;
-        text-align: center;
-    }
+.form-section p {
+    margin-bottom: 20px;
+    text-align: center;
+}
 
 /* FORMULÁRIO */
 .form-cadastro {
@@ -124,33 +139,33 @@ body {
     flex-direction: column;
 }
 
-    .form-group label {
-        font-size: 14px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 5px;
-    }
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
 
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        width: 95%;
-        padding: 12px 15px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 15px;
-        transition: all 0.3s ease;
-        font-family: 'Poppins', sans-serif;
-        resize: none;
-    }
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 95%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    resize: none;
+}
 
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #4b3a75;
-            box-shadow: 0 0 5px rgba(75, 58, 117, 0.5);
-            outline: none;
-        }
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #4b3a75;
+    box-shadow: 0 0 5px rgba(75, 58, 117, 0.5);
+    outline: none;
+}
 
 /* BOTÕES */
 .btn-group {
@@ -173,9 +188,9 @@ body {
     transition: background 0.3s ease;
 }
 
-    .btn-salvar:hover {
-        background-color: #3a2d5d;
-    }
+.btn-salvar:hover {
+    background-color: #3a2d5d;
+}
 
 .btn-cancelar {
     flex: 1;
@@ -191,6 +206,6 @@ body {
     transition: background 0.3s ease;
 }
 
-    .btn-cancelar:hover {
-        background-color: #5a2222;
-    }
+.btn-cancelar:hover {
+    background-color: #5a2222;
+}
